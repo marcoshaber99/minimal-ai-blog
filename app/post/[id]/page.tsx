@@ -1,27 +1,28 @@
-import { prisma } from '@/lib/prisma'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
+import { getPost } from "@/lib/db";
+import { notFound } from "next/navigation";
 
 export default async function PostPage({ params }: { params: { id: string } }) {
-  const post = await prisma.post.findUnique({
-    where: { id: params.id },
-  })
+  const post = await getPost(params.id);
 
   if (!post) {
-    return <div>Post not found</div>
+    return notFound();
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <Link href="/">
-        <Button variant="outline" className="mb-4">Back to Home</Button>
-      </Link>
-      <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
-      <p className="text-gray-500 text-sm mb-4">
-        {new Date(post.createdAt).toLocaleDateString()}
-      </p>
-      <div className="prose max-w-none">{post.content}</div>
-    </div>
-  )
-}
+    <article className="max-w-2xl mx-auto">
+      <h1 className="text-4xl font-bold mb-4 mt-8">{post.title}</h1>
 
+      <p className="text-gray-500 text-sm mb-8">
+        Published on {new Date(post.createdAt).toLocaleDateString()}
+      </p>
+
+      <div className="prose max-w-none">
+        {post.content.split("\n").map((paragraph, index) => (
+          <p key={index} className="mb-4">
+            {paragraph}
+          </p>
+        ))}
+      </div>
+    </article>
+  );
+}

@@ -1,27 +1,28 @@
-import './globals.css'
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import "./globals.css";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import { Navbar } from "@/components/navbar";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Simple Blog App',
-  description: 'A minimalistic blog app built with Next.js',
-}
+  title: "Simple Blog App",
+  description: "A minimalistic blog app built with Next.js",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main className="min-h-screen bg-gray-100">
-          {children}
+        <Navbar />
+        <main className="min-h-screen bg-gray-100 py-8">
+          <div className="container mx-auto px-4 max-w-4xl">{children}</div>
         </main>
       </body>
     </html>
-  )
+  );
 }
-
