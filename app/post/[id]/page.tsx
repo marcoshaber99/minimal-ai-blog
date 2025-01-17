@@ -12,7 +12,7 @@ export default async function PostPage({ params }: { params: { id: string } }) {
     <article className="max-w-2xl mx-auto">
       <h1 className="text-4xl font-bold mb-4 mt-8">{post.title}</h1>
 
-      <p className="text-gray-500 text-sm mb-8">
+      <p className="text-sm mb-8">
         Published on {new Date(post.createdAt).toLocaleDateString()}
       </p>
 
