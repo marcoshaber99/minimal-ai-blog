@@ -1,8 +1,15 @@
 import { getPost } from "@/lib/db";
 import { notFound } from "next/navigation";
 
-export default async function PostPage({ params }: { params: { id: string } }) {
-  const post = await getPost(params.id);
+interface PostPageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default async function PostPage({ params }: PostPageProps) {
+  // Await the params object before accessing its properties
+  const { id } = await params;
+
+  const post = await getPost(id);
 
   if (!post) {
     return notFound();
