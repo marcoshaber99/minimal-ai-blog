@@ -10,6 +10,7 @@ type ActionState = {
   errors?: {
     title?: string[];
     content?: string[];
+    tags?: string[];
   };
   message?: string;
   success?: boolean;
@@ -26,6 +27,7 @@ export async function createPostAction(
   const validatedFields = postSchema.safeParse({
     title: formData.get("title"),
     content: formData.get("content"),
+    tags: formData.getAll("tags"), // Get all tags from form data
   });
 
   // Step 2: If validation fails, return errors
