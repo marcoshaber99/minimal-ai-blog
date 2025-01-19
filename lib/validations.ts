@@ -12,4 +12,12 @@ export const postSchema = z.object({
 
   // Content must exist and be at least 10 characters long
   content: z.string().min(10, "Content must be at least 10 characters long"),
+  tags: z.array(z.string()).optional(),
+});
+
+export const tagSchema = z.object({
+  name: z
+    .string()
+    .min(1, "Tag must be at least 1 character long")
+    .max(50, "Tag is too long"),
 });
