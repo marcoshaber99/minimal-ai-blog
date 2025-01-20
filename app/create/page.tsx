@@ -10,6 +10,7 @@ import { createPostAction } from "../actions/post";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Tag } from "@/components/tag";
+import { useToast } from "@/hooks/use-toast";
 
 type ActionState = {
   errors?: {
@@ -23,6 +24,7 @@ type ActionState = {
 
 export default function CreatePost() {
   const router = useRouter();
+  const { toast } = useToast();
   const initialState: ActionState = {
     errors: {},
     message: "",
@@ -47,10 +49,26 @@ export default function CreatePost() {
     setTags(tags.filter((tag) => tag !== tagToRemove));
   };
 
-  const handleSubmit = (formData: FormData) => {
-    tags.forEach((tag) => formData.append("tags", tag));
-    formAction(formData);
-    router.push("/");
+  const handleSubmit = async (formData: FormData) => {
+    try {
+      tags.forEach((tag) => formData.append("tags", tag));
+      await formAction(formData);
+
+      toast({
+        title: "Success!",
+        description: "Your post has been created.",
+        variant: "default",
+      });
+
+      router.push("/");
+    } catch (error) {
+      console.error(error);
+      toast({
+        title: "Error",
+        description: "Failed to create post. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -106,6 +124,12 @@ export default function CreatePost() {
               placeholder="Enter a tag"
               aria-invalid={!!state.errors?.tags}
               aria-describedby="tags-error"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleAddTag();
+                }
+              }}
             />
             <Button type="button" onClick={handleAddTag}>
               Add Tag
