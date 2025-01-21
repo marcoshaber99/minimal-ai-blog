@@ -1,22 +1,20 @@
-"use client";
+"use client"; // This directive is required for Client Components
 
-import { useActionState } from "react";
+import { useActionState } from "react"; // New hook for managing Server Action state
+import { useRouter } from "next/navigation"; // For programmatic navigation
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Label } from "@/components/ui/label";
-import { createPostAction } from "../actions/post";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Tag } from "@/components/tag";
-import { useToast } from "@/hooks/use-toast";
+import { createPostAction } from "../actions/post"; // Import our Server Action
 
+// Define the shape of our action's state (same as in the Server Action)
 type ActionState = {
   errors?: {
     title?: string[];
     content?: string[];
-    tags?: string[];
   };
   message?: string;
   success?: boolean;
@@ -24,63 +22,46 @@ type ActionState = {
 
 export default function CreatePost() {
   const router = useRouter();
-  const { toast } = useToast();
+
+  // Initial state for our form
   const initialState: ActionState = {
     errors: {},
     message: "",
     success: false,
   };
 
+  // useActionState is a new hook that manages the state of our Server Action
+  // It returns:
+  // - state: the current state of the action
+  // - formAction: a function to be used as the form's action
+  // - pending: a boolean indicating if the action is in progress
   const [state, formAction, pending] = useActionState(
     createPostAction,
     initialState
   );
-  const [tags, setTags] = useState<string[]>([]);
-  const [tagInput, setTagInput] = useState("");
 
-  const handleAddTag = () => {
-    if (tagInput.trim() && !tags.includes(tagInput.trim())) {
-      setTags([...tags, tagInput.trim()]);
-      setTagInput("");
-    }
-  };
-
-  const handleRemoveTag = (tagToRemove: string) => {
-    setTags(tags.filter((tag) => tag !== tagToRemove));
-  };
-
-  const handleSubmit = async (formData: FormData) => {
-    try {
-      tags.forEach((tag) => formData.append("tags", tag));
-      await formAction(formData);
-
-      toast({
-        title: "Success!",
-        description: "Your post has been created.",
-        variant: "default",
-      });
-
+  // This effect runs when the state changes
+  // If the post was created successfully, it redirects to the home page
+  useEffect(() => {
+    if (state.success) {
       router.push("/");
-    } catch (error) {
-      console.error(error);
-      toast({
-        title: "Error",
-        description: "Failed to create post. Please try again.",
-        variant: "destructive",
-      });
     }
-  };
+  }, [state.success, router]);
 
   return (
     <div className="max-w-2xl mx-auto">
       <h1 className="text-3xl font-bold mb-8">Create New Post</h1>
-      <form action={handleSubmit} className="space-y-6 max-w-2xl">
+
+      {/* The form now uses the formAction from useActionState */}
+      <form action={formAction} className="space-y-6 max-w-2xl">
+        {/* Display success or error messages */}
         {state.message && (
           <Alert variant={state.success ? "default" : "destructive"}>
             <AlertDescription>{state.message}</AlertDescription>
           </Alert>
         )}
 
+        {/* Title input field */}
         <div className="space-y-2">
           <Label htmlFor="title">Title</Label>
           <Input
@@ -90,6 +71,7 @@ export default function CreatePost() {
             aria-invalid={!!state.errors?.title}
             aria-describedby="title-error"
           />
+          {/* Display title errors if any */}
           {state.errors?.title && (
             <p id="title-error" className="text-sm text-red-500">
               {state.errors.title.join(", ")}
@@ -97,6 +79,7 @@ export default function CreatePost() {
           )}
         </div>
 
+        {/* Content textarea field */}
         <div className="space-y-2">
           <Label htmlFor="content">Content</Label>
           <Textarea
@@ -107,6 +90,7 @@ export default function CreatePost() {
             aria-invalid={!!state.errors?.content}
             aria-describedby="content-error"
           />
+          {/* Display content errors if any */}
           {state.errors?.content && (
             <p id="content-error" className="text-sm text-red-500">
               {state.errors.content.join(", ")}
@@ -114,39 +98,7 @@ export default function CreatePost() {
           )}
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="tags">Tags</Label>
-          <div className="flex items-center space-x-2">
-            <Input
-              id="tags"
-              value={tagInput}
-              onChange={(e) => setTagInput(e.target.value)}
-              placeholder="Enter a tag"
-              aria-invalid={!!state.errors?.tags}
-              aria-describedby="tags-error"
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  handleAddTag();
-                }
-              }}
-            />
-            <Button type="button" onClick={handleAddTag}>
-              Add Tag
-            </Button>
-          </div>
-          {state.errors?.tags && (
-            <p id="tags-error" className="text-sm text-red-500">
-              {state.errors.tags.join(", ")}
-            </p>
-          )}
-          <div className="flex flex-wrap gap-2 mt-2">
-            {tags.map((tag) => (
-              <Tag key={tag} name={tag} onRemove={() => handleRemoveTag(tag)} />
-            ))}
-          </div>
-        </div>
-
+        {/* Submit button */}
         <Button type="submit" disabled={pending}>
           {pending ? "Creating..." : "Create Post"}
         </Button>

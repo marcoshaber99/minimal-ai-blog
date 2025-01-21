@@ -6,7 +6,6 @@ export const getPosts = unstable_cache(
   async () => {
     return await prisma.post.findMany({
       orderBy: { createdAt: "desc" },
-      include: { tags: true },
     });
   },
   ["posts"],
@@ -18,7 +17,6 @@ export const getPost = unstable_cache(
   async (id: string) => {
     return await prisma.post.findUnique({
       where: { id },
-      include: { tags: true },
     });
   },
   ["post"],
@@ -26,28 +24,8 @@ export const getPost = unstable_cache(
 );
 
 // Create a new post in the database
-export async function createPost(data: {
-  title: string;
-  content: string;
-  tags?: string[];
-}) {
-  const { tags, ...postData } = data;
+export async function createPost(data: { title: string; content: string }) {
   return await prisma.post.create({
-    data: {
-      ...postData,
-      tags: {
-        connectOrCreate:
-          tags?.map((tag) => ({
-            where: { name: tag },
-            create: { name: tag },
-          })) || [],
-      },
-    },
-    include: { tags: true },
+    data,
   });
-}
-
-// Add a function to get all tags
-export async function getAllTags() {
-  return await prisma.tag.findMany();
 }
