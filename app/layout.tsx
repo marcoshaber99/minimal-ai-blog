@@ -5,6 +5,7 @@ import { Navbar } from "@/components/navbar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 
+import { ClerkProvider } from "@clerk/nextjs";
 const geistSans = Geist({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -13,9 +14,14 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
 });
+
 export const metadata: Metadata = {
-  title: "Simple Blog App",
-  description: "A minimalistic blog app built with Next.js",
+  title: {
+    template: "%s - QuillAI",
+    absolute: "QuillAI",
+  },
+  description:
+    "QuillAI is an open-source platform for developers to write articles, take part in discussions, and share their knowledge with the world.",
 };
 
 export default function RootLayout({
@@ -24,23 +30,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
+    <ClerkProvider>
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
         >
-          <Navbar />
-          <main className="min-h-screen  py-8 font-mono">
-            <div className="container mx-auto px-4 max-w-4xl">{children}</div>
-          </main>
-          <Toaster />
-        </ThemeProvider>
-      </body>
-    </html>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Navbar />
+            <main className="min-h-screen  py-8 font-mono">
+              <div className="container mx-auto px-4 max-w-4xl">{children}</div>
+            </main>
+            <Toaster />
+          </ThemeProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

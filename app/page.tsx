@@ -2,17 +2,26 @@ import Link from "next/link";
 import { getPosts } from "@/lib/db";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { currentUser } from "@clerk/nextjs/server";
+import { SignInButton } from "@clerk/nextjs";
 
 export default async function Home() {
+  const user = await currentUser();
   const posts = await getPosts();
 
   return (
     <div>
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">Discover</h1>
-        <Link href="/create">
-          <Button>Create Post</Button>
-        </Link>
+        {user ? (
+          <Link href="/create">
+            <Button>Create Post</Button>
+          </Link>
+        ) : (
+          <SignInButton mode="modal">
+            <Button>Create Post</Button>
+          </SignInButton>
+        )}
       </div>
 
       {posts.length === 0 ? (
