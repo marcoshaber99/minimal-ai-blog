@@ -6,8 +6,7 @@ This is a modern blog application built with Next.js 15 and React 19.
 
 This project is currently in its infancy. Planned features include:
 
-- Authentication
-- Authorization
+- ✅ Authentication
 - AI-powered content generation
 - User profiles
 - Comments
