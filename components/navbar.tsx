@@ -38,10 +38,22 @@ export async function Navbar() {
           ) : (
             <>
               <SignInButton mode="modal">
-                <Button variant="outline">Sign In</Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-muted-foreground hover:text-primary"
+                >
+                  Log In
+                </Button>
               </SignInButton>
               <SignUpButton mode="modal">
-                <Button variant="outline">Sign Up</Button>
+                <Button
+                  variant="default"
+                  size="sm"
+                  className="bg-primary hover:bg-primary/90"
+                >
+                  Sign Up
+                </Button>
               </SignUpButton>
             </>
           )}
