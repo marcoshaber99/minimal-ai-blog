@@ -13,12 +13,8 @@ export default function CustomUserButton() {
         baseTheme: theme === "dark" ? dark : undefined,
         elements: {
           avatarBox: {
-            width: 32,
-            height: 32,
-          },
-          rootBox: {
-            display: "flex",
-            alignItems: "center",
+            width: 35,
+            height: 35,
           },
         },
       }}
