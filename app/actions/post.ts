@@ -3,6 +3,7 @@
 import { createPost } from "@/lib/db";
 import { postSchema } from "@/lib/validations";
 import { revalidatePath } from "next/cache";
+import { auth } from "@clerk/nextjs/server";
 
 // Define the shape of our action's state
 // This helps with type safety throughout our application
@@ -21,6 +22,15 @@ export async function createPostAction(
   prevState: ActionState, // The previous state, useful for updating only changed fields
   formData: FormData // The form data submitted by the user
 ): Promise<ActionState> {
+  const { userId } = await auth();
+
+  if (!userId) {
+    return {
+      message: "You must be signed in to create a post.",
+      success: false,
+    };
+  }
+
   // The function returns a Promise of ActionState
   // Step 1: Validate the form data
   const validatedFields = postSchema.safeParse({
@@ -38,11 +48,15 @@ export async function createPostAction(
 
   // Step 3: If validation succeeds, try to create the post
   try {
-    // Create the post in the database
-    await createPost(validatedFields.data);
+    // Create the post in the database with the author ID
+    await createPost({
+      ...validatedFields.data,
+      authorId: userId,
+    });
 
-    // Revalidate the home page to show the new post immediately
+    // Revalidate the home page and user's posts page
     revalidatePath("/");
+    revalidatePath("/posts");
 
     // Return success state
     return {

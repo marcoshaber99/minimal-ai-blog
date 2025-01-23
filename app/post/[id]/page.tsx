@@ -3,14 +3,11 @@ import { notFound } from "next/navigation";
 
 // Define the props type, making params a promise
 type PostPageProps = {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 };
 
 export default async function PostPage({ params }: PostPageProps) {
-  // Await the params object before accessing its properties
-  const { id } = await params;
-
-  const post = await getPost(id);
+  const post = await getPost(params.id);
 
   if (!post) {
     return notFound();
@@ -20,11 +17,22 @@ export default async function PostPage({ params }: PostPageProps) {
     <article className="max-w-2xl mx-auto">
       <h1 className="text-4xl font-bold mb-4 mt-8">{post.title}</h1>
 
-      <p className="text-sm mb-8">
-        Posted on {new Date(post.createdAt).toLocaleDateString()}
-      </p>
+      <div className="flex items-center gap-2 mb-8 text-sm text-muted-foreground">
+        {post.author && (
+          <span>
+            By{" "}
+            <span className="font-medium text-foreground">
+              {post.author.firstName} {post.author.lastName}
+            </span>
+          </span>
+        )}
+        <span>•</span>
+        <time dateTime={new Date(post.createdAt).toISOString()}>
+          {new Date(post.createdAt).toLocaleDateString()}
+        </time>
+      </div>
 
-      <div className="prose max-w-none">
+      <div className="prose max-w-none dark:prose-invert">
         {post.content.split("\n").map((paragraph, index) => (
           <p key={index} className="mb-4">
             {paragraph}
