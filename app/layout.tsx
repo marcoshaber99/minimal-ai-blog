@@ -17,11 +17,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s - QuillAI",
-    absolute: "QuillAI",
+    template: "%s - Vivlio",
+    absolute: "Vivlio",
   },
   description:
-    "QuillAI is an open-source platform for developers to write articles, take part in discussions, and share their knowledge with the world.",
+    "Vivlio is an open-source platform for developers to write articles, take part in discussions, and share their knowledge with the world.",
 };
 
 export default function RootLayout({

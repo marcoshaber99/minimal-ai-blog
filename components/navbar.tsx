@@ -30,7 +30,7 @@ export async function Navbar() {
             className="w-8 h-8 hidden dark:block"
             priority
           />
-          <span className="text-xl font-black font-mono">QuillAI</span>
+          <span className="text-xl font-black font-mono">Vivlio</span>
         </Link>
         <div className="flex items-center gap-2">
           {user ? (
