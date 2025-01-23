@@ -1,13 +1,13 @@
 import { getPost } from "@/lib/db";
 import { notFound } from "next/navigation";
 
-// Define the props type, making params a promise
 type PostPageProps = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
 export default async function PostPage({ params }: PostPageProps) {
-  const post = await getPost(params.id);
+  const resolvedParams = await params;
+  const post = await getPost(resolvedParams.id);
 
   if (!post) {
     return notFound();
