@@ -1,5 +1,6 @@
-<h1 align="center">
-  <img src="public/assets/logo-new-dark.svg" alt="Vivlio" width="40" style="vertical-align: middle;" /> Vivlio
+<h1 align="center" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+  <img src="public/assets/logo-new-dark.svg" alt="Vivlio Logo" width="40" style="vertical-align: middle;" /> 
+  Vivlio
 </h1>
 
 ## A developer-focused modern blog application built with Next.js 15 and React 19
