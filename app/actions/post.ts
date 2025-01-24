@@ -64,13 +64,17 @@ export async function createPostAction(
       message: "Post created successfully!",
     };
   } catch (error) {
-    // Step 4: If there's an error creating the post, return an error state
-    console.error(error);
+    // Improved error handling
+    const errorMessage =
+      error instanceof Error ? error.message : "An unknown error occurred";
+    console.error("Post creation error:", errorMessage);
+
     return {
+      success: false,
+      message: "Failed to create post. Please try again.",
       errors: {
         title: ["Database Error: Failed to create post."],
       },
-      message: "Database Error: Failed to create post.",
     };
   }
 }
