@@ -1,25 +1,26 @@
-# Next.js 15 Minimal Blog App
+<h1 align="center">
+  <img src="public/assets/logo-new-dark.svg" alt="Vivlio" width="40" style="vertical-align: middle;" /> Vivlio
+</h1>
 
-This is a modern blog application built with Next.js 15 and React 19.
+## A developer-focused modern blog application built with Next.js 15 and React 19
 
-## Future Development
-
-Planned features include:
+### Planned features include:
 
 - AI-powered content generation
 - Comments system
 - Tags and categories
-- Search functionality
-- Analytics dashboard
+- Favorites
+- Search
+- Analytics
 
-## Tech Stack
+### Tech
 
 - Next.js 15
 - React 19
 - TypeScript
 - Tailwind CSS
 - Shadcn/UI
-- Clerk Authentication
+- Clerk Auth
 - Prisma ORM
 - PostgreSQL
 - Zod
@@ -30,7 +31,7 @@ Planned features include:
 
 - Node.js (v18 or later)
 - PostgreSQL database
-- Clerk account for authentication
+- Clerk account
 - Ngrok for local webhook testing
 
 ### Installation
