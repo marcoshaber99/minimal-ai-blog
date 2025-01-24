@@ -2,7 +2,6 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { getPostsByAuthor } from "@/lib/db";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 export default async function UserPostsPage() {
@@ -18,9 +17,6 @@ export default async function UserPostsPage() {
     <div>
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">Your Posts</h1>
-        <Link href="/create">
-          <Button>Create New Post</Button>
-        </Link>
       </div>
 
       {posts.length === 0 ? (
@@ -28,9 +24,6 @@ export default async function UserPostsPage() {
           <p className="text-muted-foreground mb-4">
             You haven&apos;t created any posts yet.
           </p>
-          <Link href="/create">
-            <Button>Create Your First Post</Button>
-          </Link>
         </div>
       ) : (
         <div className="grid gap-6">

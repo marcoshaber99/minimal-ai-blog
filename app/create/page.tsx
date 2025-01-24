@@ -99,7 +99,11 @@ export default function CreatePost() {
         </div>
 
         {/* Submit button */}
-        <Button type="submit" disabled={pending}>
+        <Button
+          type="submit"
+          disabled={pending}
+          className="font-semibold dark:text-white dark:bg-blue-600 dark:hover:bg-blue-700"
+        >
           {pending ? "Creating..." : "Create Post"}
         </Button>
       </form>
