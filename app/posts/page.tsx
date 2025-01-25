@@ -11,7 +11,7 @@ export default async function UserPostsPage() {
     redirect("/sign-in");
   }
 
-  const posts = await getPostsByAuthor(userId);
+  const posts = await getPostsByAuthor(userId, userId);
 
   return (
     <div>
@@ -30,11 +30,18 @@ export default async function UserPostsPage() {
           {posts.map((post) => (
             <Card key={post.id}>
               <CardHeader>
-                <CardTitle>
-                  <Link href={`/post/${post.id}`} className="hover:underline">
-                    {post.title}
-                  </Link>
-                </CardTitle>
+                <div className="flex items-center justify-between">
+                  <CardTitle>
+                    <Link href={`/post/${post.id}`} className="hover:underline">
+                      {post.title}
+                    </Link>
+                  </CardTitle>
+                  {post.isPrivate && (
+                    <span className="text-sm text-yellow-500 dark:text-yellow-400">
+                      Private
+                    </span>
+                  )}
+                </div>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">

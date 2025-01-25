@@ -1,10 +1,11 @@
 import { prisma } from "./prisma";
 import { unstable_cache } from "next/cache";
 
-// Fetch all posts, sorted by newest first
+// Fetch all public posts, sorted by newest first
 export const getPosts = unstable_cache(
   async () => {
     return await prisma.post.findMany({
+      where: { isPrivate: false },
       orderBy: { createdAt: "desc" },
       include: {
         author: true,
@@ -15,25 +16,44 @@ export const getPosts = unstable_cache(
   { revalidate: 60 } // Revalidate every 60 seconds
 );
 
-// Find a single post by its ID
+// Find a single post by its ID, respecting privacy settings
 export const getPost = unstable_cache(
-  async (id: string) => {
-    return await prisma.post.findUnique({
+  async (id: string, currentUserId?: string | null) => {
+    const post = await prisma.post.findUnique({
       where: { id },
       include: {
         author: true,
       },
     });
+
+    // If post doesn't exist, return null
+    if (!post) return null;
+
+    // If post is public, return it
+    if (!post.isPrivate) return post;
+
+    // If post is private, only return if the current user is the author
+    if (currentUserId && post.authorId === currentUserId) return post;
+
+    // Otherwise, return null
+    return null;
   },
   ["post"],
   { revalidate: 60 }
 );
 
-// Get posts by author ID
+// Get posts by author ID, including private posts if the viewer is the author
 export const getPostsByAuthor = unstable_cache(
-  async (authorId: string) => {
+  async (authorId: string, currentUserId?: string | null) => {
     return await prisma.post.findMany({
-      where: { authorId },
+      where: {
+        authorId,
+        // Only include private posts if the viewer is the author
+        OR: [
+          { isPrivate: false },
+          { isPrivate: true, authorId: currentUserId },
+        ],
+      },
       orderBy: { createdAt: "desc" },
       include: {
         author: true,
@@ -49,6 +69,7 @@ export async function createPost(data: {
   title: string;
   content: string;
   authorId: string;
+  isPrivate: boolean;
 }) {
   return await prisma.post.create({
     data,

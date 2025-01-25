@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { createPostAction } from "../actions/post"; // Import our Server Action
 
 // Define the shape of our action's state (same as in the Server Action)
@@ -96,6 +97,12 @@ export default function CreatePost() {
               {state.errors.content.join(", ")}
             </p>
           )}
+        </div>
+
+        {/* Privacy toggle */}
+        <div className="flex items-center space-x-2">
+          <Switch id="isPrivate" name="isPrivate" />
+          <Label htmlFor="isPrivate">Make this post private</Label>
         </div>
 
         {/* Submit button */}

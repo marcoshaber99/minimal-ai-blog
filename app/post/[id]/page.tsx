@@ -1,41 +1,26 @@
 import { getPost } from "@/lib/db";
-import { notFound } from "next/navigation";
+import { auth } from "@clerk/nextjs/server";
+import { getAuthorDisplayName } from "@/lib/utils/user";
+import { ErrorMessage } from "@/components/error-message";
 
 type PostPageProps = {
   params: Promise<{ id: string }>;
 };
 
-function getAuthorDisplayName(
-  author: {
-    firstName?: string | null;
-    lastName?: string | null;
-    username?: string | null;
-    email?: string | null;
-  } | null
-) {
-  if (!author) return null;
-
-  if (author.firstName && author.lastName) {
-    return `${author.firstName} ${author.lastName}`;
-  }
-
-  if (author.username) {
-    return author.username;
-  }
-
-  if (author.email) {
-    return author.email.split("@")[0]; // Show only the part before @ for privacy
-  }
-
-  return null;
-}
-
 export default async function PostPage({ params }: PostPageProps) {
+  const { userId } = await auth();
   const resolvedParams = await params;
-  const post = await getPost(resolvedParams.id);
+  const post = await getPost(resolvedParams.id, userId);
 
   if (!post) {
-    return notFound();
+    return (
+      <div className="container max-w-2xl mx-auto mt-16">
+        <ErrorMessage
+          title="Post Not Available"
+          message="This post either does not exist or is private."
+        />
+      </div>
+    );
   }
 
   const authorName = getAuthorDisplayName(post.author);
@@ -57,6 +42,14 @@ export default async function PostPage({ params }: PostPageProps) {
         <time dateTime={new Date(post.createdAt).toISOString()}>
           {new Date(post.createdAt).toLocaleDateString()}
         </time>
+        {post.isPrivate && (
+          <>
+            <span>•</span>
+            <span className="text-yellow-500 dark:text-yellow-400">
+              Private
+            </span>
+          </>
+        )}
       </div>
 
       <div className="prose max-w-none dark:prose-invert">

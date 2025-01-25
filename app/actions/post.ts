@@ -36,6 +36,7 @@ export async function createPostAction(
   const validatedFields = postSchema.safeParse({
     title: formData.get("title"),
     content: formData.get("content"),
+    isPrivate: formData.get("isPrivate") === "on", // Convert checkbox value to boolean
   });
 
   // Step 2: If validation fails, return errors
