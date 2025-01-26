@@ -34,7 +34,7 @@ export default async function PostPage({ params }: PostPageProps) {
         <h1 className="text-4xl font-bold mt-8">{post.title}</h1>
         {isAuthor && (
           <Link href={`/edit/${post.id}`}>
-            <Button variant="outline">Edit Post</Button>
+            <Button variant="outline">Edit</Button>
           </Link>
         )}
       </div>

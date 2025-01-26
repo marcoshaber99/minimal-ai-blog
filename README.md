@@ -1,7 +1,7 @@
 <h1 align="center">
-  <div style="display: inline-flex; align-items: center; gap: 12px;">
-    <img src="public/assets/logo-new-dark.svg" alt="Vivlio Logo" width="40" />
-    <span>Vivlio</span>
+  <div style="display:flex; flex-direction: column; align-items: center; gap: 12px;">
+    <img src="public/assets/new-logo.svg" alt="Vivlio Logo" width="150" />
+    <h1>Vivlio</h1>
   </div>
 </h1>
 
@@ -9,24 +9,12 @@
 
 ### Planned features:
 
+- Public/Private posts ✅
 - AI-assisted content generation
 - Comments
 - Tags and categories
 - Favorites
 - Search
-- Public/Private posts
-
-### Tech
-
-- Next.js 15
-- React 19
-- TypeScript
-- Tailwind CSS
-- Shadcn/UI
-- Clerk Auth
-- Prisma ORM
-- PostgreSQL
-- Zod
 
 ## Setup
 

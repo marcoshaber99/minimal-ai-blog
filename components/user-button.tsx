@@ -2,7 +2,7 @@
 
 import { UserButton } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
-import { FileEdit } from "lucide-react";
+import { LayoutDashboard, PenIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 
 export default function CustomUserButton() {
@@ -21,9 +21,14 @@ export default function CustomUserButton() {
     >
       <UserButton.MenuItems>
         <UserButton.Link
-          label="Your Posts"
-          href="/posts"
-          labelIcon={<FileEdit className="size-4" />}
+          label="Dashboard"
+          href="/dashboard"
+          labelIcon={<LayoutDashboard className="size-4" />}
+        />
+        <UserButton.Link
+          label="Create"
+          href="/create"
+          labelIcon={<PenIcon className="size-4" />}
         />
       </UserButton.MenuItems>
     </UserButton>

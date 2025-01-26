@@ -13,28 +13,19 @@ export async function Navbar() {
   return (
     <nav className="shadow-sm">
       <div className="container mx-auto px-4 max-w-4xl py-4 flex justify-between items-center ">
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-1">
           <Image
-            src="/assets/logo-new-dark.svg"
+            src="/assets/new-logo.svg"
             alt="Blog Logo"
-            width={32}
-            height={32}
-            className="w-8 h-8"
+            width={50}
+            height={50}
             priority
           />
-          <span className="text-xl font-black font-mono">Vivlio</span>
+          <span className="text-2xl font-bold">Vivlio</span>
         </Link>
         <div className="flex items-center gap-2">
           {user ? (
             <>
-              <Link href="/create">
-                <Button
-                  size="sm"
-                  className="font-semibold dark:text-white dark:bg-blue-600 dark:hover:bg-blue-700"
-                >
-                  Create Post
-                </Button>
-              </Link>
               <CustomUserButton />
             </>
           ) : (
