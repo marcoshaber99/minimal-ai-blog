@@ -19,6 +19,8 @@ export default async function UserPostsPage() {
   }
 
   const posts = await getPostsByAuthor(userId, userId);
+  const publicPosts = posts.filter((post) => !post.isPrivate);
+  const privatePosts = posts.filter((post) => post.isPrivate);
 
   return (
     <div>
@@ -33,38 +35,90 @@ export default async function UserPostsPage() {
           </p>
         </div>
       ) : (
-        <div className="grid gap-6">
-          {posts.map((post) => (
-            <Card key={post.id}>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle>
-                    <Link href={`/post/${post.id}`} className="hover:underline">
-                      {post.title}
-                    </Link>
-                  </CardTitle>
-                  {post.isPrivate && (
-                    <span className="text-sm font-semibold text-red-500 dark:text-yellow-400">
-                      Private
-                    </span>
-                  )}
-                </div>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  {new Date(post.createdAt).toLocaleDateString()}
-                </p>
-                <p className="mt-2 line-clamp-3">{post.content}</p>
-              </CardContent>
-              <CardFooter>
-                <Link href={`/edit/${post.id}`}>
-                  <Button variant="outline" size="sm">
-                    Edit
-                  </Button>
-                </Link>
-              </CardFooter>
-            </Card>
-          ))}
+        <div className="space-y-8">
+          {publicPosts.length > 0 && (
+            <section>
+              <h2 className="text-xl font-semibold mb-4">Public Posts</h2>
+              <div className="grid gap-6">
+                {publicPosts.map((post) => (
+                  <Card key={post.id}>
+                    <CardHeader>
+                      <div className="flex items-center justify-between">
+                        <CardTitle>
+                          <Link
+                            href={`/post/${post.id}`}
+                            className="hover:underline"
+                          >
+                            {post.title}
+                          </Link>
+                        </CardTitle>
+                        {post.isPrivate && (
+                          <span className="text-sm font-semibold text-red-500 dark:text-yellow-400">
+                            Private
+                          </span>
+                        )}
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground">
+                        {new Date(post.createdAt).toLocaleDateString()}
+                      </p>
+                      <p className="mt-2 line-clamp-3">{post.content}</p>
+                    </CardContent>
+                    <CardFooter>
+                      <Link href={`/edit/${post.id}`}>
+                        <Button variant="outline" size="sm">
+                          Edit
+                        </Button>
+                      </Link>
+                    </CardFooter>
+                  </Card>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {privatePosts.length > 0 && (
+            <section>
+              <h2 className="text-xl font-semibold mb-4">Private Posts</h2>
+              <div className="grid gap-6">
+                {privatePosts.map((post) => (
+                  <Card key={post.id}>
+                    <CardHeader>
+                      <div className="flex items-center justify-between">
+                        <CardTitle>
+                          <Link
+                            href={`/post/${post.id}`}
+                            className="hover:underline"
+                          >
+                            {post.title}
+                          </Link>
+                        </CardTitle>
+                        {post.isPrivate && (
+                          <span className="text-sm font-semibold text-red-500 dark:text-yellow-400">
+                            Private
+                          </span>
+                        )}
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground">
+                        {new Date(post.createdAt).toLocaleDateString()}
+                      </p>
+                      <p className="mt-2 line-clamp-3">{post.content}</p>
+                    </CardContent>
+                    <CardFooter>
+                      <Link href={`/edit/${post.id}`}>
+                        <Button variant="outline" size="sm">
+                          Edit
+                        </Button>
+                      </Link>
+                    </CardFooter>
+                  </Card>
+                ))}
+              </div>
+            </section>
+          )}
         </div>
       )}
     </div>
