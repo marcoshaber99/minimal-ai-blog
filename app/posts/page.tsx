@@ -2,7 +2,14 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { getPostsByAuthor } from "@/lib/db";
 import Link from "next/link";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 export default async function UserPostsPage() {
   const { userId } = await auth();
@@ -49,6 +56,13 @@ export default async function UserPostsPage() {
                 </p>
                 <p className="mt-2 line-clamp-3">{post.content}</p>
               </CardContent>
+              <CardFooter>
+                <Link href={`/edit/${post.id}`}>
+                  <Button variant="outline" size="sm">
+                    Edit
+                  </Button>
+                </Link>
+              </CardFooter>
             </Card>
           ))}
         </div>

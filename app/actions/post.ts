@@ -1,6 +1,6 @@
 "use server"; // This directive marks all exports of this file as Server Actions
 
-import { createPost } from "@/lib/db";
+import { createPost, updatePost } from "@/lib/db";
 import { postSchema } from "@/lib/validations";
 import { revalidatePath } from "next/cache";
 import { auth } from "@clerk/nextjs/server";
@@ -75,6 +75,72 @@ export async function createPostAction(
       message: "Failed to create post. Please try again.",
       errors: {
         title: ["Database Error: Failed to create post."],
+      },
+    };
+  }
+}
+
+type UpdateActionState = {
+  errors?: {
+    title?: string[];
+    content?: string[];
+  };
+  message?: string;
+  success?: boolean;
+};
+
+export async function updatePostAction(
+  prevState: UpdateActionState,
+  formData: FormData
+): Promise<UpdateActionState> {
+  const { userId } = await auth();
+
+  if (!userId) {
+    return {
+      message: "You must be signed in to update a post.",
+      success: false,
+    };
+  }
+
+  const postId = formData.get("id") as string;
+
+  const validatedFields = postSchema.safeParse({
+    title: formData.get("title"),
+    content: formData.get("content"),
+    isPrivate: formData.get("isPrivate") === "on",
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Failed to update post. Please check the form for errors.",
+    };
+  }
+
+  try {
+    await updatePost(postId, {
+      ...validatedFields.data,
+      authorId: userId,
+    });
+
+    revalidatePath("/");
+    revalidatePath("/posts");
+    revalidatePath(`/post/${postId}`);
+
+    return {
+      success: true,
+      message: "Post updated successfully!",
+    };
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "An unknown error occurred";
+    console.error("Post update error:", errorMessage);
+
+    return {
+      success: false,
+      message: "Failed to update post. Please try again.",
+      errors: {
+        title: ["Database Error: Failed to update post."],
       },
     };
   }

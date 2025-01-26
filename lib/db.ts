@@ -120,3 +120,21 @@ export async function getUser(id: string) {
     where: { id },
   });
 }
+
+export async function updatePost(
+  id: string,
+  data: {
+    title: string;
+    content: string;
+    authorId: string;
+    isPrivate: boolean;
+  }
+) {
+  return await prisma.post.update({
+    where: { id },
+    data,
+    include: {
+      author: true,
+    },
+  });
+}

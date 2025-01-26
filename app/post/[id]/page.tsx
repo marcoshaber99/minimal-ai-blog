@@ -2,6 +2,8 @@ import { getPost } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { getAuthorDisplayName } from "@/lib/utils/user";
 import { ErrorMessage } from "@/components/error-message";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 type PostPageProps = {
   params: Promise<{ id: string }>;
@@ -24,10 +26,18 @@ export default async function PostPage({ params }: PostPageProps) {
   }
 
   const authorName = getAuthorDisplayName(post.author);
+  const isAuthor = userId === post.authorId;
 
   return (
     <article className="max-w-2xl mx-auto">
-      <h1 className="text-4xl font-bold mb-4 mt-8">{post.title}</h1>
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-4xl font-bold mt-8">{post.title}</h1>
+        {isAuthor && (
+          <Link href={`/edit/${post.id}`}>
+            <Button variant="outline">Edit Post</Button>
+          </Link>
+        )}
+      </div>
 
       <div className="flex items-center gap-2 mb-8 text-sm text-muted-foreground">
         {authorName && (
