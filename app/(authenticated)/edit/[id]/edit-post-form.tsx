@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { updatePostAction } from "../../actions/post";
+import { updatePostAction } from "@/app/actions/post";
 
 type ActionState = {
   errors?: {

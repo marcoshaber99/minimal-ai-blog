@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ModeToggle } from "./mode-toggle";
 import { SignInButton, SignUpButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import CustomUserButton from "./user-button";
@@ -13,14 +12,18 @@ export async function Navbar() {
   return (
     <nav className="shadow-sm">
       <div className="container mx-auto px-4 max-w-4xl py-4 flex justify-between items-center ">
-        <Link href="/" className="flex items-center gap-1">
+        <Link
+          href={user ? "/discover" : "/"}
+          className="flex items-center gap-1"
+        >
           <Image
             src="/assets/new-logo.svg"
-            alt="Blog Logo"
-            width={50}
-            height={50}
+            alt="Vivlio Logo"
+            width={40}
+            height={40}
             priority
           />
+
           <span className="text-2xl font-bold">Vivlio</span>
         </Link>
         <div className="flex items-center gap-2">
@@ -46,7 +49,6 @@ export async function Navbar() {
               </SignUpButton>
             </>
           )}
-          <ModeToggle />
         </div>
       </div>
     </nav>

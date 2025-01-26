@@ -2,11 +2,11 @@
 
 import { UserButton } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
-import { LayoutDashboard, PenIcon } from "lucide-react";
+import { LayoutDashboard, PenIcon, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 
 export default function CustomUserButton() {
-  const { theme } = useTheme();
+  const { theme, setTheme } = useTheme();
   return (
     <UserButton
       appearance={{
@@ -29,6 +29,18 @@ export default function CustomUserButton() {
           label="Create"
           href="/create"
           labelIcon={<PenIcon className="size-4" />}
+        />
+
+        <UserButton.Action
+          label="Toggle theme"
+          labelIcon={
+            theme === "dark" ? (
+              <Sun className="size-4" />
+            ) : (
+              <Moon className="size-4" />
+            )
+          }
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
         />
       </UserButton.MenuItems>
     </UserButton>

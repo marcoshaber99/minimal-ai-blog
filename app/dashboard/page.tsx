@@ -44,7 +44,7 @@ export default async function UserPostsPage() {
                     </Link>
                   </CardTitle>
                   {post.isPrivate && (
-                    <span className="text-sm text-yellow-500 dark:text-yellow-400">
+                    <span className="text-sm font-semibold text-red-500 dark:text-yellow-400">
                       Private
                     </span>
                   )}
