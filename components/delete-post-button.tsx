@@ -1,7 +1,6 @@
 "use client";
 
 import { useActionState } from "react";
-import { useOptimistic } from "react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -23,18 +22,11 @@ import { deletePostAction } from "@/app/actions/post";
 interface DeletePostButtonProps {
   postId: string;
   postTitle: string;
-  onOptimisticDelete?: () => void;
 }
 
-export function DeletePostButton({
-  postId,
-  postTitle,
-  onOptimisticDelete,
-}: DeletePostButtonProps) {
+export function DeletePostButton({ postId, postTitle }: DeletePostButtonProps) {
   const router = useRouter();
   const { toast } = useToast();
-
-  const [optimisticDeleted, setOptimisticDeleted] = useOptimistic(false);
 
   const initialState = {
     message: "",
@@ -46,13 +38,6 @@ export function DeletePostButton({
     initialState
   );
 
-  const handleDelete = async (formData: FormData) => {
-    setOptimisticDeleted(true);
-    onOptimisticDelete?.();
-
-    await formAction(formData);
-  };
-
   useEffect(() => {
     if (state.message) {
       toast({
@@ -63,15 +48,9 @@ export function DeletePostButton({
 
       if (state.success) {
         router.push("/dashboard");
-      } else {
-        setOptimisticDeleted(false);
       }
     }
   }, [state, router, toast]);
-
-  if (optimisticDeleted) {
-    return null;
-  }
 
   return (
     <AlertDialog>
@@ -90,7 +69,7 @@ export function DeletePostButton({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <form action={handleDelete}>
+          <form action={formAction}>
             <input type="hidden" name="id" value={postId} />
             <AlertDialogAction
               type="submit"
