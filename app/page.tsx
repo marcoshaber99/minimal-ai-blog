@@ -12,11 +12,11 @@ export default async function Home() {
       {/* Hero Section */}
       <section className="relative py-10 md:py-20">
         <div className="container mx-auto max-w-4xl">
-          <div className="grid gap-12 md:grid-cols-2 md:gap-8 items-center">
+          <div className="grid gap-12 sm:grid-cols-2 sm:gap-8 items-center">
             <div className="space-y-8">
               <h1 className="text-5xl md:text-6xl font-custom tracking-tight">
-                Memorize Less,{" "}
-                <span className="dark:text-[#ffcf0f] text-[#5b5bfe] italic">
+                Memorize Less{" "}
+                <span className="block mt-2 dark:text-[#ffcf0f] text-[#5b5bfe] italic">
                   Think More.
                 </span>
               </h1>
@@ -28,7 +28,7 @@ export default async function Home() {
                   <Link href="/discover">
                     <Button
                       size="lg"
-                      className=" bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90"
+                      className="bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90"
                     >
                       Start Reading
                     </Button>
@@ -45,12 +45,14 @@ export default async function Home() {
                 )}
               </div>
             </div>
-            <div className="hidden md:block relative w-full">
+            <div className="hidden sm:block relative w-full">
               <Image
                 src="/assets/new-logo.svg"
-                alt="Illustration"
-                width={350}
-                height={350}
+                alt="Logo"
+                width={330}
+                height={330}
+                className="w-[200px] sm:w-[250px] md:w-[300px] lg:w-[330px] h-auto ml-auto"
+                priority
               />
             </div>
           </div>

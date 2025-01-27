@@ -55,7 +55,7 @@ export default async function PostPage({ params }: PostPageProps) {
         {post.isPrivate && (
           <>
             <span>•</span>
-            <span className="text-yellow-500 dark:text-yellow-400">
+            <span className="font-semibold italic text-blue-500 dark:text-yellow-500">
               Private
             </span>
           </>

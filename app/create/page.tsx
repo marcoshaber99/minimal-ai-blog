@@ -19,6 +19,7 @@ type ActionState = {
   };
   message?: string;
   success?: boolean;
+  postId?: string;
 };
 
 export default function CreatePost() {
@@ -42,12 +43,12 @@ export default function CreatePost() {
   );
 
   // This effect runs when the state changes
-  // If the post was created successfully, it redirects to the home page
+  // If the post was created successfully, it redirects to the new post
   useEffect(() => {
-    if (state.success) {
-      router.push("/");
+    if (state.success && state.postId) {
+      router.push(`/post/${state.postId}`);
     }
-  }, [state.success, router]);
+  }, [state.success, state.postId, router]);
 
   return (
     <div className="max-w-2xl mx-auto">

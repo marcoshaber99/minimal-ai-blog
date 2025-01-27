@@ -13,7 +13,10 @@ export const getPosts = unstable_cache(
     });
   },
   ["posts"],
-  { revalidate: 10 } // Revalidate every 10 seconds
+  {
+    revalidate: 30, // Revalidate every 30 seconds
+    tags: ["posts"], // Add tags for manual revalidation
+  }
 );
 
 // Find a single post by its ID, respecting privacy settings
@@ -39,7 +42,10 @@ export const getPost = unstable_cache(
     return null;
   },
   ["post"],
-  { revalidate: 10 }
+  {
+    revalidate: 15, // Revalidate every 15 seconds for individual posts
+    tags: ["post"], // Add tags for manual revalidation
+  }
 );
 
 // Get posts by author ID, including private posts if the viewer is the author
@@ -61,7 +67,10 @@ export const getPostsByAuthor = unstable_cache(
     });
   },
   ["posts-by-author"],
-  { revalidate: 10 }
+  {
+    revalidate: 20, // Revalidate every 20 seconds for author posts
+    tags: ["posts", "author-posts"], // Add multiple tags for better control
+  }
 );
 
 // Create a new post in the database

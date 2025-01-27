@@ -2,7 +2,7 @@
 
 import { createPost, updatePost, deletePost } from "@/lib/db";
 import { postSchema } from "@/lib/validations";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { auth } from "@clerk/nextjs/server";
 
 // Define the shape of our action's state
@@ -14,6 +14,7 @@ type ActionState = {
   };
   message?: string;
   success?: boolean;
+  postId?: string;
 };
 
 // This is our Server Action
@@ -50,19 +51,20 @@ export async function createPostAction(
   // Step 3: If validation succeeds, try to create the post
   try {
     // Create the post in the database with the author ID
-    await createPost({
+    const post = await createPost({
       ...validatedFields.data,
       authorId: userId,
     });
 
-    // Revalidate the home page and user's posts page
-    revalidatePath("/");
-    revalidatePath("/posts");
+    // Revalidate all relevant cache tags
+    revalidateTag("posts");
+    revalidateTag("author-posts");
 
     // Return success state
     return {
       success: true,
       message: "Post created successfully!",
+      postId: post.id,
     };
   } catch (error) {
     // Improved error handling
@@ -123,9 +125,10 @@ export async function updatePostAction(
       authorId: userId,
     });
 
-    revalidatePath("/");
-    revalidatePath("/posts");
-    revalidatePath(`/post/${postId}`);
+    // Revalidate all relevant cache tags
+    revalidateTag("posts");
+    revalidateTag("post");
+    revalidateTag("author-posts");
 
     return {
       success: true,
@@ -172,8 +175,10 @@ export async function deletePostAction(
     // Add this function to lib/db.ts
     await deletePost(postId, userId);
 
-    revalidatePath("/");
-    revalidatePath("/dashboard");
+    // Revalidate all relevant cache tags
+    revalidateTag("posts");
+    revalidateTag("post");
+    revalidateTag("author-posts");
 
     return {
       success: true,
