@@ -5,6 +5,19 @@ import { Navbar } from "@/components/navbar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { ClerkProvider } from "@clerk/nextjs";
+import localFont from "next/font/local";
+import { Footer } from "@/components/footer";
+const customFont = localFont({
+  src: "../public/fonts/gt-med.otf",
+  variable: "--font-custom",
+  display: "swap",
+});
+
+const customFontRegular = localFont({
+  src: "../public/fonts/gt-reg.otf",
+  variable: "--font-custom-regular",
+  display: "swap",
+});
 
 const geistSans = Geist({
   subsets: ["latin"],
@@ -34,7 +47,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} ${customFont.variable} ${customFontRegular.variable} font-sans antialiased`}
         >
           <ThemeProvider
             attribute="class"
@@ -47,6 +60,7 @@ export default function RootLayout({
               <div className="container mx-auto px-4 max-w-4xl">{children}</div>
             </main>{" "}
             <Toaster />
+            <Footer />
           </ThemeProvider>
         </body>
       </html>

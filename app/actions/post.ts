@@ -1,6 +1,6 @@
 "use server"; // This directive marks all exports of this file as Server Actions
 
-import { createPost, updatePost } from "@/lib/db";
+import { createPost, updatePost, deletePost } from "@/lib/db";
 import { postSchema } from "@/lib/validations";
 import { revalidatePath } from "next/cache";
 import { auth } from "@clerk/nextjs/server";
@@ -142,6 +142,51 @@ export async function updatePostAction(
       errors: {
         title: ["Database Error: Failed to update post."],
       },
+    };
+  }
+}
+
+// Add this new type after the existing ActionState types
+type DeleteActionState = {
+  message?: string;
+  success?: boolean;
+};
+
+// Add this new server action
+export async function deletePostAction(
+  prevState: DeleteActionState,
+  formData: FormData
+): Promise<DeleteActionState> {
+  const { userId } = await auth();
+
+  if (!userId) {
+    return {
+      message: "You must be signed in to delete a post.",
+      success: false,
+    };
+  }
+
+  const postId = formData.get("id") as string;
+
+  try {
+    // Add this function to lib/db.ts
+    await deletePost(postId, userId);
+
+    revalidatePath("/");
+    revalidatePath("/dashboard");
+
+    return {
+      success: true,
+      message: "Post deleted successfully!",
+    };
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "An unknown error occurred";
+    console.error("Post deletion error:", errorMessage);
+
+    return {
+      success: false,
+      message: "Failed to delete post. Please try again.",
     };
   }
 }

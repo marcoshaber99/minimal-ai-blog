@@ -24,7 +24,9 @@ export async function Navbar() {
             priority
           />
 
-          <span className="text-2xl font-bold">Vivlio</span>
+          <span className="font-customRegular font-black text-2xl  transition-colors">
+            Vivlio
+          </span>
         </Link>
         <div className="flex items-center gap-2">
           {user ? (

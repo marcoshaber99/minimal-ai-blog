@@ -10,26 +10,25 @@ export default async function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-20 md:py-32">
+      <section className="relative py-10 md:py-20">
         <div className="container mx-auto max-w-4xl">
           <div className="grid gap-12 md:grid-cols-2 md:gap-8 items-center">
             <div className="space-y-8">
-              <h1 className="text-5xl md:text-6xl font-serif tracking-tight">
-                Don&apos;t imitate,{" "}
+              <h1 className="text-5xl md:text-6xl font-custom tracking-tight">
+                Memorize Less,{" "}
                 <span className="dark:text-[#ffcf0f] text-[#5b5bfe] italic">
-                  understand
+                  Think More.
                 </span>
-                .
               </h1>
               <p className="text-xl text-muted-foreground max-w-lg">
-                A place to read, write, and deepen your understanding
+                Transform how you learn – master concepts, not just syntax.
               </p>
               <div className="flex gap-4">
                 {user ? (
                   <Link href="/discover">
                     <Button
                       size="lg"
-                      className="font-semibold bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90"
+                      className=" bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90"
                     >
                       Start Reading
                     </Button>
@@ -52,7 +51,6 @@ export default async function Home() {
                 alt="Illustration"
                 width={350}
                 height={350}
-                className="ml-auto"
               />
             </div>
           </div>

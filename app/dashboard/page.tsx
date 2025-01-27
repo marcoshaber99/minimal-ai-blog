@@ -10,6 +10,8 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { DeletePostButton } from "@/components/delete-post-button";
+import { Lock } from "lucide-react";
 
 export default async function UserPostsPage() {
   const { userId } = await auth();
@@ -66,11 +68,17 @@ export default async function UserPostsPage() {
                       <p className="mt-2 line-clamp-3">{post.content}</p>
                     </CardContent>
                     <CardFooter>
-                      <Link href={`/edit/${post.id}`}>
-                        <Button variant="outline" size="sm">
-                          Edit
-                        </Button>
-                      </Link>
+                      <div className="flex gap-2">
+                        <Link href={`/edit/${post.id}`}>
+                          <Button variant="outline" size="sm">
+                            Edit
+                          </Button>
+                        </Link>
+                        <DeletePostButton
+                          postId={post.id}
+                          postTitle={post.title}
+                        />
+                      </div>
                     </CardFooter>
                   </Card>
                 ))}
@@ -95,9 +103,7 @@ export default async function UserPostsPage() {
                           </Link>
                         </CardTitle>
                         {post.isPrivate && (
-                          <span className="text-sm font-semibold text-red-500 dark:text-yellow-400">
-                            Private
-                          </span>
+                          <Lock className="h-4 w-4 text-blue-600 dark:text-yellow-500" />
                         )}
                       </div>
                     </CardHeader>
@@ -108,11 +114,17 @@ export default async function UserPostsPage() {
                       <p className="mt-2 line-clamp-3">{post.content}</p>
                     </CardContent>
                     <CardFooter>
-                      <Link href={`/edit/${post.id}`}>
-                        <Button variant="outline" size="sm">
-                          Edit
-                        </Button>
-                      </Link>
+                      <div className="flex gap-2">
+                        <Link href={`/edit/${post.id}`}>
+                          <Button variant="outline" size="sm">
+                            Edit
+                          </Button>
+                        </Link>
+                        <DeletePostButton
+                          postId={post.id}
+                          postTitle={post.title}
+                        />
+                      </div>
                     </CardFooter>
                   </Card>
                 ))}
