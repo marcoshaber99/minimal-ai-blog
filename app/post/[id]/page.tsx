@@ -1,9 +1,11 @@
-import { getPost } from "@/lib/db";
+import { getPostWithFavorites } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { getAuthorDisplayName } from "@/lib/utils/user";
 import { ErrorMessage } from "@/components/error-message";
+import { FavoriteButton } from "@/components/favorite-button";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Lock } from "lucide-react";
 
 type PostPageProps = {
   params: Promise<{ id: string }>;
@@ -12,7 +14,7 @@ type PostPageProps = {
 export default async function PostPage({ params }: PostPageProps) {
   const { userId } = await auth();
   const resolvedParams = await params;
-  const post = await getPost(resolvedParams.id, userId);
+  const post = await getPostWithFavorites(resolvedParams.id, userId);
 
   if (!post) {
     return (
@@ -25,18 +27,27 @@ export default async function PostPage({ params }: PostPageProps) {
     );
   }
 
-  const authorName = getAuthorDisplayName(post.author);
+  const authorName = post.author
+    ? getAuthorDisplayName(post.author)
+    : "Unknown";
   const isAuthor = userId === post.authorId;
 
   return (
     <article className="max-w-2xl mx-auto">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-4xl font-bold mt-8">{post.title}</h1>
-        {isAuthor && (
-          <Link href={`/edit/${post.id}`}>
-            <Button variant="outline">Edit</Button>
-          </Link>
-        )}
+        <div className="flex items-center gap-2">
+          <FavoriteButton post={post} />
+          {isAuthor && (
+            <>
+              <Link href={`/edit/${post.id}`}>
+                <Button variant="outline" size="sm">
+                  Edit
+                </Button>
+              </Link>
+            </>
+          )}
+        </div>
       </div>
 
       <div className="flex items-center gap-2 mb-8 text-sm text-muted-foreground">
@@ -49,13 +60,14 @@ export default async function PostPage({ params }: PostPageProps) {
             <span>•</span>
           </>
         )}
-        <time dateTime={new Date(post.createdAt).toISOString()}>
-          {new Date(post.createdAt).toLocaleDateString()}
+        <time dateTime={post.createdAt.toISOString()}>
+          {post.createdAt.toLocaleDateString()}
         </time>
         {post.isPrivate && (
           <>
             <span>•</span>
-            <span className="font-semibold italic text-blue-500 dark:text-yellow-500">
+            <span className="font-semibold italic flex items-center gap-1">
+              <Lock className="h-4 w-4 text-blue-600 dark:text-yellow-500" />
               Private
             </span>
           </>

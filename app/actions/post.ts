@@ -4,6 +4,7 @@ import { createPost, updatePost, deletePost } from "@/lib/db";
 import { postSchema } from "@/lib/validations";
 import { revalidateTag } from "next/cache";
 import { auth } from "@clerk/nextjs/server";
+import { prisma } from "@/lib/prisma";
 
 // Define the shape of our action's state
 // This helps with type safety throughout our application
@@ -15,6 +16,25 @@ type ActionState = {
   message?: string;
   success?: boolean;
   postId?: string;
+};
+
+type UpdateActionState = {
+  errors?: {
+    title?: string[];
+    content?: string[];
+  };
+  message?: string;
+  success?: boolean;
+};
+
+type DeleteActionState = {
+  message?: string;
+  success?: boolean;
+};
+
+type FavoriteActionState = {
+  success: boolean;
+  message?: string;
 };
 
 // This is our Server Action
@@ -82,15 +102,6 @@ export async function createPostAction(
   }
 }
 
-type UpdateActionState = {
-  errors?: {
-    title?: string[];
-    content?: string[];
-  };
-  message?: string;
-  success?: boolean;
-};
-
 export async function updatePostAction(
   prevState: UpdateActionState,
   formData: FormData
@@ -149,13 +160,6 @@ export async function updatePostAction(
   }
 }
 
-// Add this new type after the existing ActionState types
-type DeleteActionState = {
-  message?: string;
-  success?: boolean;
-};
-
-// Add this new server action
 export async function deletePostAction(
   prevState: DeleteActionState,
   formData: FormData
@@ -172,7 +176,6 @@ export async function deletePostAction(
   const postId = formData.get("id") as string;
 
   try {
-    // Add this function to lib/db.ts
     await deletePost(postId, userId);
 
     // Revalidate all relevant cache tags
@@ -192,6 +195,62 @@ export async function deletePostAction(
     return {
       success: false,
       message: "Failed to delete post. Please try again.",
+    };
+  }
+}
+
+export async function toggleFavorite(
+  postId: string
+): Promise<FavoriteActionState> {
+  try {
+    const { userId } = await auth();
+
+    if (!userId) {
+      return {
+        success: false,
+        message: "You must be signed in to favorite posts.",
+      };
+    }
+
+    // Check if user has already favorited this post
+    const existingFavorite = await prisma.favorite.findUnique({
+      where: {
+        postId_userId: {
+          postId,
+          userId,
+        },
+      },
+    });
+
+    if (existingFavorite) {
+      // Remove favorite
+      await prisma.favorite.delete({
+        where: {
+          id: existingFavorite.id,
+        },
+      });
+    } else {
+      // Add favorite
+      await prisma.favorite.create({
+        data: {
+          postId,
+          userId,
+        },
+      });
+    }
+
+    // Revalidate cache
+    revalidateTag("posts");
+    revalidateTag("post");
+
+    return {
+      success: true,
+    };
+  } catch (error) {
+    console.error("Error toggling favorite:", error);
+    return {
+      success: false,
+      message: "Failed to update favorite status.",
     };
   }
 }

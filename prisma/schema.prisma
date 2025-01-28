@@ -8,24 +8,37 @@ generator client {
 }
 
 model Post {
-  id        String   @id @default(cuid())
+  id        String     @id @default(cuid())
   title     String
   content   String
-  isPrivate Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  author    User?    @relation(fields: [authorId], references: [id])
+  isPrivate Boolean    @default(false)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  author    User?      @relation(fields: [authorId], references: [id])
   authorId  String?
+  favorites Favorite[]
 }
 
 model User {
-  id        String   @id
-  email     String?  @unique
-  username  String?  @unique
+  id        String     @id
+  email     String?    @unique
+  username  String?    @unique
   firstName String?
   lastName  String?
   imageUrl  String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   posts     Post[]
+  favorites Favorite[]
+}
+
+model Favorite {
+  id        String   @id @default(cuid())
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  createdAt DateTime @default(now())
+
+  @@unique([postId, userId])
 }

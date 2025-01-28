@@ -8,11 +8,11 @@ export default async function EditPostPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { userId } = await auth();
+  const { userId, redirectToSignIn } = await auth();
   const resolvedParams = await params;
 
   if (!userId) {
-    redirect("/sign-in");
+    redirectToSignIn();
   }
 
   const post = await getPost(resolvedParams.id, userId);

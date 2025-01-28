@@ -1,16 +1,26 @@
 import { prisma } from "./prisma";
 import { unstable_cache } from "next/cache";
+import type { Post, User } from "@/types";
 
 // Fetch all public posts, sorted by newest first
 export const getPosts = unstable_cache(
-  async () => {
-    return await prisma.post.findMany({
+  async (currentUserId?: string | null) => {
+    const posts = await prisma.post.findMany({
       where: { isPrivate: false },
       orderBy: { createdAt: "desc" },
       include: {
         author: true,
+        favorites: true,
       },
     });
+
+    return posts.map((post) => ({
+      ...post,
+      isFavorited: currentUserId
+        ? post.favorites.some((fav) => fav.userId === currentUserId)
+        : false,
+      favoritesCount: post.favorites.length,
+    }));
   },
   ["posts"],
   {
@@ -49,29 +59,40 @@ export const getPost = unstable_cache(
 );
 
 // Get posts by author ID, including private posts if the viewer is the author
-export const getPostsByAuthor = unstable_cache(
-  async (authorId: string, currentUserId?: string | null) => {
-    return await prisma.post.findMany({
-      where: {
-        authorId,
-        // Only include private posts if the viewer is the author
-        OR: [
-          { isPrivate: false },
-          { isPrivate: true, authorId: currentUserId },
-        ],
-      },
-      orderBy: { createdAt: "desc" },
-      include: {
-        author: true,
-      },
-    });
-  },
-  ["posts-by-author"],
-  {
-    revalidate: 20, // Revalidate every 20 seconds for author posts
-    tags: ["posts", "author-posts"], // Add multiple tags for better control
-  }
-);
+
+export async function getPostsByAuthor(userId: string, viewerId: string) {
+  const posts = await prisma.post.findMany({
+    where: {
+      authorId: userId,
+      OR: [{ isPrivate: false }, { authorId: viewerId }],
+    },
+    include: {
+      favorites: true,
+      author: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  return posts.map((post) => ({
+    ...post,
+    createdAt: post.createdAt,
+    updatedAt: post.updatedAt,
+    isFavorited: post.favorites.some((fav) => fav.userId === viewerId),
+    favoritesCount: post.favorites.length,
+    author: post.author
+      ? {
+          id: post.author.id,
+          email: post.author.email,
+          username: post.author.username,
+          firstName: post.author.firstName,
+          lastName: post.author.lastName,
+          imageUrl: post.author.imageUrl,
+        }
+      : undefined,
+  })) as Post[];
+}
 
 // Create a new post in the database
 export async function createPost(data: {
@@ -162,4 +183,87 @@ export async function deletePost(id: string, userId: string) {
   return await prisma.post.delete({
     where: { id },
   });
+}
+
+export async function getPostWithFavorites(
+  id: string,
+  currentUserId?: string | null
+): Promise<Post | null> {
+  const post = await prisma.post.findUnique({
+    where: { id },
+    include: {
+      author: true,
+      favorites: true,
+    },
+  });
+
+  if (!post) return null;
+
+  // If post is private and user is not the author, return null
+  if (post.isPrivate && (!currentUserId || post.authorId !== currentUserId)) {
+    return null;
+  }
+
+  const author: User | undefined = post.author
+    ? {
+        id: post.author.id,
+        email: post.author.email,
+        username: post.author.username,
+        firstName: post.author.firstName,
+        lastName: post.author.lastName,
+        imageUrl: post.author.imageUrl,
+      }
+    : undefined;
+
+  return {
+    id: post.id,
+    title: post.title,
+    content: post.content,
+    isPrivate: post.isPrivate,
+    createdAt: post.createdAt,
+    updatedAt: post.updatedAt,
+    authorId: post.authorId,
+    author,
+    isFavorited: currentUserId
+      ? post.favorites.some((fav) => fav.userId === currentUserId)
+      : false,
+    favoritesCount: post.favorites.length,
+  };
+}
+export async function getUserFavorites(userId: string) {
+  const favorites = await prisma.favorite.findMany({
+    where: {
+      userId,
+    },
+    include: {
+      post: {
+        include: {
+          author: true,
+          favorites: {
+            where: {
+              userId,
+            },
+          },
+          _count: {
+            select: {
+              favorites: true,
+            },
+          },
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  // Filter out any favorites where the post might have been deleted
+  // and map to return just the posts with favorite info
+  return favorites
+    .filter((fav) => fav.post !== null)
+    .map((fav) => ({
+      ...fav.post,
+      isFavorited: true,
+      favoritesCount: fav.post._count.favorites,
+    })) as Post[];
 }
