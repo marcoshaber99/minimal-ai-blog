@@ -10,10 +10,10 @@
 ### Planned features:
 
 - Public/Private posts ✅
+- Favorites ✅
 - AI-assisted content generation
 - Comments
 - Tags and categories
-- Favorites
 - Search
 
 ## Setup

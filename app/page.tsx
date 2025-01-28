@@ -15,13 +15,13 @@ export default async function Home() {
           <div className="grid gap-12 sm:grid-cols-2 sm:gap-8 items-center">
             <div className="space-y-8">
               <h1 className="text-5xl md:text-6xl font-custom tracking-tight">
-                Memorize Less{" "}
+                Don&apos;t Memorize{" "}
                 <span className="block mt-2 dark:text-[#ffcf0f] text-[#5b5bfe] italic">
-                  Think More.
+                  Understand.
                 </span>
               </h1>
               <p className="text-xl text-muted-foreground max-w-lg">
-                Transform how you learn – master concepts, not just syntax.
+                A developer-focused, educational blog platform.
               </p>
               <div className="flex gap-4">
                 {user ? (
