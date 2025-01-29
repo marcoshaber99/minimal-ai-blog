@@ -27,10 +27,12 @@ export default async function PostPage({ params }: PostPageProps) {
     );
   }
 
-  const authorName = post.author
+  const isAuthor = userId === post.authorId;
+  const authorName = isAuthor
+    ? "You"
+    : post.author
     ? getAuthorDisplayName(post.author)
     : "Unknown";
-  const isAuthor = userId === post.authorId;
 
   return (
     <article className="max-w-2xl mx-auto">
