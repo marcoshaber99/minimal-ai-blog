@@ -2,7 +2,7 @@
 
 import { UserButton } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
-import { LayoutDashboard, PenIcon, Moon, Sun } from "lucide-react";
+import { LayoutDashboard, PenIcon, Moon, Sun, House } from "lucide-react";
 import { useTheme } from "next-themes";
 
 export default function CustomUserButton() {
@@ -20,6 +20,11 @@ export default function CustomUserButton() {
       }}
     >
       <UserButton.MenuItems>
+        <UserButton.Link
+          label="Discover"
+          href="/discover"
+          labelIcon={<House className="size-4" />}
+        />
         <UserButton.Link
           label="Dashboard"
           href="/dashboard"

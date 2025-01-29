@@ -6,13 +6,15 @@ import { ErrorMessage } from "@/components/error-message";
 import { FavoriteButton } from "@/components/favorite-button";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Lock } from "lucide-react";
+import { ArrowLeft, Lock } from "lucide-react";
+import { Suspense } from "react";
+import { PostSkeleton } from "@/components/skeleton-loader";
 
 type PostPageProps = {
   params: Promise<{ id: string }>;
 };
 
-export default async function PostPage({ params }: PostPageProps) {
+async function PostContent({ params }: PostPageProps) {
   const { userId } = await auth();
   const resolvedParams = await params;
   const post = await getPostWithFavorites(resolvedParams.id, userId);
@@ -37,8 +39,19 @@ export default async function PostPage({ params }: PostPageProps) {
 
   return (
     <article className="max-w-2xl mx-auto">
+      <Link href="/discover">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="mb-8 -ml-2 text-muted-foreground hover:text-foreground"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Discover
+        </Button>
+      </Link>
+
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-4xl font-bold mt-8">{post.title}</h1>
+        <h1 className="text-4xl font-bold">{post.title}</h1>
         <div className="flex items-center gap-2">
           <FavoriteButton post={post} />
           {isAuthor && (
@@ -85,5 +98,13 @@ export default async function PostPage({ params }: PostPageProps) {
         ))}
       </div>
     </article>
+  );
+}
+
+export default function PostPage(props: PostPageProps) {
+  return (
+    <Suspense fallback={<PostSkeleton />}>
+      <PostContent params={props.params} />
+    </Suspense>
   );
 }
