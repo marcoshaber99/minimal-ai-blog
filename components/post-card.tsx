@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { DeletePostButton } from "@/components/delete-post-button";
+import { formatDate } from "@/lib/utils/date";
 import type { Post } from "@/types";
 
 interface PostCardProps {
@@ -47,7 +48,9 @@ export function PostCard({ post, showEditDelete = false }: PostCardProps) {
       </CardHeader>
       <CardContent>
         <p className="text-sm text-muted-foreground">
-          {new Date(post.createdAt).toLocaleDateString()}
+          <time dateTime={post.createdAt.toISOString()}>
+            {formatDate(post.createdAt)}
+          </time>
         </p>
         <p className="mt-2 line-clamp-3">{post.content}</p>
       </CardContent>

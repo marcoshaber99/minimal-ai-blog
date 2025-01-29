@@ -1,6 +1,7 @@
 import { getPostWithFavorites } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { getAuthorDisplayName } from "@/lib/utils/user";
+import { formatDate } from "@/lib/utils/date";
 import { ErrorMessage } from "@/components/error-message";
 import { FavoriteButton } from "@/components/favorite-button";
 import Link from "next/link";
@@ -63,7 +64,7 @@ export default async function PostPage({ params }: PostPageProps) {
           </>
         )}
         <time dateTime={post.createdAt.toISOString()}>
-          {post.createdAt.toLocaleDateString()}
+          {formatDate(post.createdAt)}
         </time>
         {post.isPrivate && (
           <>

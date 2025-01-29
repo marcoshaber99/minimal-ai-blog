@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getPosts } from "@/lib/db";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { formatDate } from "@/lib/utils/date";
 
 export default async function DiscoverPage() {
   const posts = await getPosts();
@@ -25,9 +26,7 @@ export default async function DiscoverPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm">
-                  {new Date(post.createdAt).toLocaleDateString()}
-                </p>
+                <p className="text-sm">{formatDate(post.createdAt)}</p>
                 <p className="mt-2 line-clamp-3">{post.content}</p>
               </CardContent>
             </Card>

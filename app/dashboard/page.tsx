@@ -5,8 +5,10 @@ import { PostsTabs } from "@/components/posts-tabs";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import Link from "next/link";
+import { Suspense } from "react";
+import { DashboardSkeleton } from "@/components/skeleton-loader";
 
-export default async function UserPostsPage() {
+async function DashboardContent() {
   const { userId } = await auth();
 
   if (!userId) {
@@ -40,5 +42,13 @@ export default async function UserPostsPage() {
         <PostsTabs posts={posts} favorites={favorites} />
       )}
     </div>
+  );
+}
+
+export default function Dashboard() {
+  return (
+    <Suspense fallback={<DashboardSkeleton />}>
+      <DashboardContent />
+    </Suspense>
   );
 }
