@@ -27,7 +27,10 @@ export default async function DiscoverPage() {
               </CardHeader>
               <CardContent>
                 <p className="text-sm">{formatDate(post.createdAt)}</p>
-                <p className="mt-2 line-clamp-3">{post.content}</p>
+                <p
+                  className="mt-2 line-clamp-3 prose max-w-none dark:prose-invert"
+                  dangerouslySetInnerHTML={{ __html: post.content }}
+                />
               </CardContent>
             </Card>
           ))}

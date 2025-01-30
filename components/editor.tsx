@@ -25,8 +25,6 @@ export function Editor({ content, onChange, className }: EditorProps) {
       StarterKit,
       Placeholder.configure({
         placeholder: "Start writing your blog post...",
-        emptyEditorClass:
-          "before:content-[attr(data-placeholder)] before:text-muted-foreground before:float-left before:pointer-events-none",
       }),
     ],
     content: content || "",
