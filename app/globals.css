@@ -74,82 +74,131 @@
   }
 }
 
-/* TipTap Editor Styles */
-.tiptap {
-  > * + * {
-    margin-top: 0.75em;
+/* Base prose styles for rendered content */
+.prose {
+  ul {
+    list-style-type: disc;
+    margin: 1.25rem 0;
+    padding-left: 1.625rem;
   }
 
-  ul,
   ol {
-    padding: 0 1rem;
+    list-style-type: decimal;
+    margin: 1.25rem 0;
+    padding-left: 2.25rem;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    line-height: 1.1;
+  li {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
   }
 
-  code {
-    background-color: rgba(97, 97, 97, 0.1);
-    color: #616161;
+  li > p {
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
   }
 
-  pre {
-    background: #0d0d0d;
-    color: #fff;
-    font-family: "JetBrainsMono", monospace;
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
-
-    code {
-      color: inherit;
-      padding: 0;
-      background: none;
-      font-size: 0.8rem;
-    }
-  }
-
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-
-  blockquote {
-    padding-left: 1rem;
-    border-left: 2px solid rgba(13, 13, 13, 0.1);
-  }
-
-  hr {
-    border: none;
-    border-top: 2px solid rgba(13, 13, 13, 0.1);
-    margin: 2rem 0;
+  li > ul,
+  li > ol {
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
   }
 }
 
-.dark .tiptap {
-  code {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #fff;
-  }
+/* TipTap Editor Styles */
+.ProseMirror {
+  @apply px-4 pt-2;
+  outline: none !important;
+}
 
-  blockquote {
-    border-left-color: rgba(255, 255, 255, 0.1);
-  }
+h1.tiptap-heading {
+  @apply mb-6 mt-8 text-4xl font-bold;
+}
 
-  hr {
-    border-top-color: rgba(255, 255, 255, 0.1);
-  }
+h2.tiptap-heading {
+  @apply mb-4 mt-6 text-3xl font-bold;
+}
+
+h3.tiptap-heading {
+  @apply mb-3 mt-4 text-xl font-bold;
+}
+
+h1.tiptap-heading:first-child,
+h2.tiptap-heading:first-child,
+h3.tiptap-heading:first-child {
+  margin-top: 0;
+}
+
+h1.tiptap-heading + h2.tiptap-heading,
+h1.tiptap-heading + h3.tiptap-heading,
+h2.tiptap-heading + h1.tiptap-heading,
+h2.tiptap-heading + h3.tiptap-heading,
+h3.tiptap-heading + h1.tiptap-heading,
+h3.tiptap-heading + h2.tiptap-heading {
+  margin-top: 0;
 }
 
 .tiptap p.is-editor-empty:first-child::before {
-  color: #adb5bd;
+  @apply pointer-events-none float-left h-0 text-muted-foreground;
   content: attr(data-placeholder);
-  float: left;
-  height: 0;
-  pointer-events: none;
+}
+
+.tiptap ul,
+.tiptap ol {
+  padding: 0 1.5rem;
+  margin: 1rem 0;
+}
+
+.tiptap ul li {
+  list-style-type: disc;
+}
+
+.tiptap ol li {
+  list-style-type: decimal;
+  margin-left: 0.5rem;
+}
+
+.tiptap li p {
+  margin: 0.5rem 0;
+}
+
+.tiptap blockquote {
+  @apply border-l-2 border-muted pl-4 italic my-4;
+}
+
+.tiptap code {
+  @apply bg-muted text-muted-foreground px-1.5 py-0.5 rounded-md font-mono text-sm;
+}
+
+.tiptap pre {
+  @apply bg-muted text-muted-foreground p-4 rounded-md font-mono text-sm my-4;
+}
+
+.tiptap pre code {
+  @apply bg-transparent p-0 text-inherit;
+}
+
+.tiptap img {
+  @apply max-w-full h-auto;
+}
+
+.tiptap hr {
+  @apply border-none border-t-2 border-muted my-8;
+}
+
+/* Dark mode adjustments */
+.dark .tiptap code {
+  @apply bg-muted/50;
+}
+
+.dark .tiptap pre {
+  @apply bg-muted/50;
+}
+
+.dark .tiptap blockquote {
+  @apply border-muted/50;
+}
+
+.dark .tiptap hr {
+  @apply border-muted/50;
 }

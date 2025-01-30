@@ -2,6 +2,8 @@ import Link from "next/link";
 import { getPosts } from "@/lib/db";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { formatDate } from "@/lib/utils/date";
+import { Button } from "@/components/ui/button";
+import { PlusCircle } from "lucide-react";
 
 export default async function DiscoverPage() {
   const posts = await getPosts();
@@ -10,6 +12,12 @@ export default async function DiscoverPage() {
     <div>
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">Discover</h1>
+        <Link href="/create">
+          <Button variant="outline" className="gap-2 font-semibold">
+            <PlusCircle className="h-4 w-4" />
+            Create Post
+          </Button>
+        </Link>
       </div>
 
       {posts.length === 0 ? (

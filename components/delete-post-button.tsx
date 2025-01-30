@@ -22,9 +22,14 @@ import { deletePostAction } from "@/app/actions/post";
 interface DeletePostButtonProps {
   postId: string;
   postTitle: string;
+  redirectPath?: string;
 }
 
-export function DeletePostButton({ postId, postTitle }: DeletePostButtonProps) {
+export function DeletePostButton({
+  postId,
+  postTitle,
+  redirectPath = "/dashboard",
+}: DeletePostButtonProps) {
   const router = useRouter();
   const { toast } = useToast();
 
@@ -47,10 +52,10 @@ export function DeletePostButton({ postId, postTitle }: DeletePostButtonProps) {
       });
 
       if (state.success) {
-        router.push("/dashboard");
+        router.push(redirectPath);
       }
     }
-  }, [state, router, toast]);
+  }, [state, router, toast, redirectPath]);
 
   return (
     <AlertDialog>
