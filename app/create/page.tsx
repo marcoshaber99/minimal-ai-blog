@@ -2,14 +2,15 @@
 
 import { useActionState } from "react"; // New hook for managing Server Action state
 import { useRouter } from "next/navigation"; // For programmatic navigation
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { createPostAction } from "../actions/post"; // Import our Server Action
+import { Editor } from "@/components/editor";
+import { cn } from "@/lib/utils";
 
 // Define the shape of our action's state (same as in the Server Action)
 type ActionState = {
@@ -24,6 +25,7 @@ type ActionState = {
 
 export default function CreatePost() {
   const router = useRouter();
+  const [content, setContent] = useState("");
 
   // Initial state for our form
   const initialState: ActionState = {
@@ -50,12 +52,18 @@ export default function CreatePost() {
     }
   }, [state.success, state.postId, router]);
 
+  const handleSubmit = async (formData: FormData) => {
+    // Add the editor content to the form data
+    formData.set("content", content);
+    await formAction(formData);
+  };
+
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold mb-8">Create New Post</h1>
 
       {/* The form now uses the formAction from useActionState */}
-      <form action={formAction} className="space-y-6 max-w-2xl">
+      <form action={handleSubmit} className="space-y-6">
         {/* Display success or error messages */}
         {state.message && (
           <Alert variant={state.success ? "default" : "destructive"}>
@@ -83,14 +91,13 @@ export default function CreatePost() {
 
         {/* Content textarea field */}
         <div className="space-y-2">
-          <Label htmlFor="content">Content</Label>
-          <Textarea
-            id="content"
-            name="content"
-            required
-            rows={10}
-            aria-invalid={!!state.errors?.content}
-            aria-describedby="content-error"
+          <Label>Content</Label>
+          <Editor
+            onChange={setContent}
+            className={cn(
+              "min-h-[500px] border-none",
+              state.errors?.content && "border-red-500"
+            )}
           />
           {/* Display content errors if any */}
           {state.errors?.content && (

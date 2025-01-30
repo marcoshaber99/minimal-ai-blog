@@ -52,7 +52,10 @@ export function PostCard({ post, showEditDelete = false }: PostCardProps) {
             {formatDate(post.createdAt)}
           </time>
         </p>
-        <p className="mt-2 line-clamp-3">{post.content}</p>
+        <p
+          className="prose max-w-none dark:prose-invert mt-2 line-clamp-3"
+          dangerouslySetInnerHTML={{ __html: post.content }}
+        />
       </CardContent>
       {showEditDelete && (
         <CardFooter>

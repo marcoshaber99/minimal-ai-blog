@@ -53,7 +53,7 @@ async function PostContent({ params }: PostPageProps) {
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-4xl font-bold">{post.title}</h1>
         <div className="flex items-center gap-2">
-          <FavoriteButton post={post} />
+          {/* <FavoriteButton post={post} /> */}
           {isAuthor && (
             <>
               <Link href={`/edit/${post.id}`}>
@@ -66,7 +66,7 @@ async function PostContent({ params }: PostPageProps) {
         </div>
       </div>
 
-      <div className="flex items-center gap-2 mb-8 text-sm text-muted-foreground">
+      <div className="flex items-center gap-2 mb-8 text-sm text-muted-foreground ml-2">
         {authorName && (
           <>
             <span>
@@ -88,15 +88,16 @@ async function PostContent({ params }: PostPageProps) {
             </span>
           </>
         )}
+        {/* likes */}{" "}
+        <span className="flex items-center gap-1 ml-2 ">
+          <FavoriteButton post={post} />
+        </span>
       </div>
 
-      <div className="prose max-w-none dark:prose-invert">
-        {post.content.split("\n").map((paragraph, index) => (
-          <p key={index} className="mb-4">
-            {paragraph}
-          </p>
-        ))}
-      </div>
+      <div
+        className="prose max-w-none dark:prose-invert"
+        dangerouslySetInnerHTML={{ __html: post.content }}
+      />
     </article>
   );
 }

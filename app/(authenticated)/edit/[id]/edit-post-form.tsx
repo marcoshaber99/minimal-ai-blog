@@ -2,14 +2,15 @@
 
 import { useActionState } from "react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { updatePostAction } from "@/app/actions/post";
+import { Editor } from "@/components/editor";
+import { cn } from "@/lib/utils";
 
 type ActionState = {
   errors?: {
@@ -29,6 +30,7 @@ type Post = {
 
 export default function EditPostForm({ post }: { post: Post }) {
   const router = useRouter();
+  const [content, setContent] = useState(post.content);
 
   const initialState: ActionState = {
     errors: {},
@@ -47,11 +49,17 @@ export default function EditPostForm({ post }: { post: Post }) {
     }
   }, [state.success, router, post.id]);
 
-  return (
-    <div className="max-w-2xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8">Edit</h1>
+  const handleSubmit = async (formData: FormData) => {
+    // Add the editor content to the form data
+    formData.set("content", content);
+    await formAction(formData);
+  };
 
-      <form action={formAction} className="space-y-6 max-w-2xl">
+  return (
+    <div className="max-w-4xl mx-auto">
+      <h1 className="text-3xl font-bold mb-8">Edit Post</h1>
+
+      <form action={handleSubmit} className="space-y-6">
         <input type="hidden" name="id" value={post.id} />
 
         {state.message && (
@@ -78,15 +86,14 @@ export default function EditPostForm({ post }: { post: Post }) {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="content">Content</Label>
-          <Textarea
-            id="content"
-            name="content"
-            defaultValue={post.content}
-            required
-            rows={10}
-            aria-invalid={!!state.errors?.content}
-            aria-describedby="content-error"
+          <Label>Content</Label>
+          <Editor
+            content={post.content}
+            onChange={setContent}
+            className={cn(
+              "min-h-[500px] border-none",
+              state.errors?.content && "border-red-500"
+            )}
           />
           {state.errors?.content && (
             <p id="content-error" className="text-sm text-red-500">
