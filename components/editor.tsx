@@ -50,8 +50,7 @@ export function Editor({ content, onChange, className }: EditorProps) {
           },
           codeBlock: {
             HTMLAttributes: {
-              class:
-                "bg-muted text-muted-foreground p-2 rounded-md font-mono text-sm",
+              class: "bg-muted text-muted-foreground p-2 rounded-md text-sm",
             },
           },
         }),
