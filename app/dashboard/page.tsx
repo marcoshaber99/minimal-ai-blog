@@ -21,11 +21,11 @@ async function DashboardContent() {
   ]);
 
   return (
-    <div>
+    <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">Dashboard</h1>
         <Link href="/create">
-          <Button className="gap-2 font-semibold dark:text-white dark:bg-blue-600 dark:hover:bg-blue-700">
+          <Button variant="outline" className="gap-2 font-semibold">
             <PlusCircle className="h-4 w-4" />
             Create Post
           </Button>
@@ -33,10 +33,13 @@ async function DashboardContent() {
       </div>
 
       {posts.length === 0 && favorites.length === 0 ? (
-        <div className="text-center">
+        <div className="text-center bg-muted p-8 rounded-lg">
           <p className="text-muted-foreground mb-4">
             You haven&apos;t created any posts yet.
           </p>
+          <Link href="/create">
+            <Button>Create Your First Post</Button>
+          </Link>
         </div>
       ) : (
         <PostsTabs posts={posts} favorites={favorites} />

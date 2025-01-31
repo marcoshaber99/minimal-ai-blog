@@ -15,53 +15,45 @@ export function PostsTabs({ posts, favorites }: PostsTabsProps) {
 
   return (
     <Tabs defaultValue="posts" className="w-full">
-      <TabsList className="grid w-full grid-cols-3">
+      <TabsList className="grid w-full grid-cols-3 mb-8">
         <TabsTrigger value="posts">Your Posts</TabsTrigger>
         <TabsTrigger value="private">Private</TabsTrigger>
         <TabsTrigger value="favorites">Favorites</TabsTrigger>
       </TabsList>
 
-      <TabsContent value="posts" className="mt-6">
-        {publicPosts.length === 0 ? (
-          <p className="text-muted-foreground text-center">
-            You haven&apos;t created any public posts yet.
-          </p>
-        ) : (
-          <div className="grid gap-6">
-            {publicPosts.map((post) => (
-              <PostCard key={post.id} post={post} showEditDelete={true} />
-            ))}
+      {["posts", "private", "favorites"].map((tab) => (
+        <TabsContent key={tab} value={tab}>
+          <div className="space-y-6">
+            {(tab === "posts"
+              ? publicPosts
+              : tab === "private"
+              ? privatePosts
+              : favorites
+            ).length === 0 ? (
+              <p className="text-muted-foreground text-center bg-muted p-8 rounded-lg">
+                {tab === "posts"
+                  ? "You haven't created any public posts yet."
+                  : tab === "private"
+                  ? "You haven't created any private posts yet."
+                  : "You haven't favorited any posts yet."}
+              </p>
+            ) : (
+              (tab === "posts"
+                ? publicPosts
+                : tab === "private"
+                ? privatePosts
+                : favorites
+              ).map((post) => (
+                <PostCard
+                  key={post.id}
+                  post={post}
+                  showEditDelete={tab !== "favorites"}
+                />
+              ))
+            )}
           </div>
-        )}
-      </TabsContent>
-
-      <TabsContent value="private" className="mt-6">
-        {privatePosts.length === 0 ? (
-          <p className="text-muted-foreground text-center">
-            You haven&apos;t created any private posts yet.
-          </p>
-        ) : (
-          <div className="grid gap-6">
-            {privatePosts.map((post) => (
-              <PostCard key={post.id} post={post} showEditDelete={true} />
-            ))}
-          </div>
-        )}
-      </TabsContent>
-
-      <TabsContent value="favorites" className="mt-6">
-        {favorites.length === 0 ? (
-          <p className="text-muted-foreground text-center">
-            You haven&apos;t favorited any posts yet.
-          </p>
-        ) : (
-          <div className="grid gap-6">
-            {favorites.map((post) => (
-              <PostCard key={post.id} post={post} showEditDelete={false} />
-            ))}
-          </div>
-        )}
-      </TabsContent>
+        </TabsContent>
+      ))}
     </Tabs>
   );
 }

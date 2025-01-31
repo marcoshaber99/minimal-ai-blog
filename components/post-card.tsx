@@ -3,7 +3,6 @@ import { Lock, Heart } from "lucide-react";
 import {
   Card,
   CardHeader,
-  CardTitle,
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
@@ -19,24 +18,23 @@ interface PostCardProps {
 
 export function PostCard({ post, showEditDelete = false }: PostCardProps) {
   return (
-    <Card key={post.id}>
-      <CardHeader>
+    <Card
+      key={post.id}
+      className="hover:shadow-md transition-shadow duration-300"
+    >
+      <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
-          <CardTitle>
-            <Link href={`/post/${post.id}`} className="hover:underline">
-              {post.title}
-            </Link>
-          </CardTitle>
-          <div className="flex items-center gap-2">
-            {post.isPrivate && (
-              <Lock className="h-4 w-4 text-blue-600 dark:text-yellow-500" />
-            )}
+          <Link href={`/post/${post.id}`} className="hover:underline">
+            <h3 className="text-lg font-semibold">{post.title}</h3>
+          </Link>
+          <div className="flex items-center gap-3">
+            {post.isPrivate && <Lock className="h-4 w-4 text-yellow-500" />}
             <div className="flex items-center gap-1">
               <Heart
                 className={`h-4 w-4 ${
                   post.isFavorited
                     ? "fill-red-500 text-red-500"
-                    : "text-gray-500"
+                    : "text-muted-foreground"
                 }`}
               />
               <span className="text-sm text-muted-foreground">
@@ -46,19 +44,19 @@ export function PostCard({ post, showEditDelete = false }: PostCardProps) {
           </div>
         </div>
       </CardHeader>
-      <CardContent>
-        <p className="text-sm text-muted-foreground">
-          <time dateTime={post.createdAt.toISOString()}>
-            {formatDate(post.createdAt)}
-          </time>
-        </p>
+      <CardContent className="pb-3">
         <p
-          className="prose max-w-none dark:prose-invert mt-2 line-clamp-3"
+          className="text-sm text-muted-foreground line-clamp-2"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
       </CardContent>
-      {showEditDelete && (
-        <CardFooter>
+      <CardFooter className="flex justify-between items-center pt-3 text-sm text-muted-foreground">
+        <div className="flex items-center gap-2">
+          <time dateTime={post.createdAt.toISOString()}>
+            {formatDate(post.createdAt)}
+          </time>
+        </div>
+        {showEditDelete && (
           <div className="flex gap-2">
             <Link href={`/edit/${post.id}`}>
               <Button variant="outline" size="sm">
@@ -67,8 +65,8 @@ export function PostCard({ post, showEditDelete = false }: PostCardProps) {
             </Link>
             <DeletePostButton postId={post.id} postTitle={post.title} />
           </div>
-        </CardFooter>
-      )}
+        )}
+      </CardFooter>
     </Card>
   );
 }

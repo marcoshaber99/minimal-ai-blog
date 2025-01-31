@@ -2,12 +2,14 @@ import { auth } from "@clerk/nextjs/server";
 import { getPost } from "@/lib/db";
 import { redirect } from "next/navigation";
 import EditPostForm from "./edit-post-form";
+import { Suspense } from "react";
+import { EditSkeleton } from "@/components/skeleton-loader";
 
-export default async function EditPostPage({
-  params,
-}: {
+interface EditPostPageProps {
   params: Promise<{ id: string }>;
-}) {
+}
+
+async function EditPostContent({ params }: EditPostPageProps) {
   const { userId, redirectToSignIn } = await auth();
   const resolvedParams = await params;
 
@@ -22,4 +24,12 @@ export default async function EditPostPage({
   }
 
   return <EditPostForm post={post} />;
+}
+
+export default function EditPostPage(props: EditPostPageProps) {
+  return (
+    <Suspense fallback={<EditSkeleton />}>
+      <EditPostContent params={props.params} />
+    </Suspense>
+  );
 }
