@@ -6,9 +6,11 @@ import { ErrorMessage } from "@/components/error-message";
 import { FavoriteButton } from "@/components/favorite-button";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Lock } from "lucide-react";
+import { ArrowLeft, GraduationCap, Lock, Edit } from "lucide-react";
 import { Suspense } from "react";
 import { PostSkeleton } from "@/components/skeleton-loader";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 type PostPageProps = {
   params: Promise<{ id: string }>;
@@ -38,67 +40,68 @@ async function PostContent({ params }: PostPageProps) {
     : "Unknown";
 
   return (
-    <article className="max-w-2xl mx-auto">
-      <Link href="/discover">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="mb-8 -ml-2 text-muted-foreground hover:text-foreground"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Discover
-        </Button>
-      </Link>
-
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-4xl font-bold">{post.title}</h1>
-        <div className="flex items-center gap-2">
-          {/* <FavoriteButton post={post} /> */}
+    <Card className="max-w-3xl mx-auto bg-inherit border-none">
+      <CardHeader>
+        <div className="flex justify-between items-center mb-4">
+          <Link href="/discover">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-muted-foreground hover:text-foreground"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Discover
+            </Button>
+          </Link>
           {isAuthor && (
-            <>
-              <Link href={`/edit/${post.id}`}>
-                <Button variant="outline" size="sm">
-                  Edit
-                </Button>
-              </Link>
-            </>
+            <Link href={`/edit/${post.id}`}>
+              <Button variant="outline" size="sm">
+                <Edit className="h-4 w-4 mr-2" />
+                Edit
+              </Button>
+            </Link>
           )}
         </div>
-      </div>
+        <CardTitle className="text-3xl font-bold">{post.title}</CardTitle>
+        <div className="flex items-center gap-2 mt-2 text-sm text-muted-foreground">
+          <span>By {authorName}</span>
+          <span>•</span>
+          <time dateTime={post.createdAt.toISOString()}>
+            {formatDate(post.createdAt)}
+          </time>
+          {post.isPrivate && (
+            <>
+              <span>•</span>
+              <Badge variant="secondary" className="flex items-center gap-1">
+                <Lock className="h-3 w-3" />
+                Private
+              </Badge>
+            </>
+          )}
+          <span className="ml-auto">
+            <FavoriteButton post={post} />
+          </span>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <div className="bg-muted/40 p-4 rounded-lg mb-8 border-none">
+          <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
+            <GraduationCap className="h-5 w-5" />
+            Learning Outcomes
+          </h3>
+          <ul className="list-disc list-inside space-y-1">
+            {post.learningOutcomes.map((outcome, index) => (
+              <li key={index}>{outcome}</li>
+            ))}
+          </ul>
+        </div>
 
-      <div className="flex items-center gap-2 mb-8 text-sm text-muted-foreground ml-2">
-        {authorName && (
-          <>
-            <span>
-              By{" "}
-              <span className="font-medium text-foreground">{authorName}</span>
-            </span>
-            <span>•</span>
-          </>
-        )}
-        <time dateTime={post.createdAt.toISOString()}>
-          {formatDate(post.createdAt)}
-        </time>
-        {post.isPrivate && (
-          <>
-            <span>•</span>
-            <span className="font-semibold italic flex items-center gap-1">
-              <Lock className="h-4 w-4 text-blue-600 dark:text-yellow-500" />
-              Private
-            </span>
-          </>
-        )}
-        {/* likes */}{" "}
-        <span className="flex items-center gap-1 ml-2 ">
-          <FavoriteButton post={post} />
-        </span>
-      </div>
-
-      <div
-        className="prose max-w-none dark:prose-invert"
-        dangerouslySetInnerHTML={{ __html: post.content }}
-      />
-    </article>
+        <div
+          className="prose max-w-none dark:prose-invert"
+          dangerouslySetInnerHTML={{ __html: post.content }}
+        />
+      </CardContent>
+    </Card>
   );
 }
 

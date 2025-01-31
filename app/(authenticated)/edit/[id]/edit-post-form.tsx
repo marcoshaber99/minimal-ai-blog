@@ -11,11 +11,13 @@ import { Switch } from "@/components/ui/switch";
 import { updatePostAction } from "@/app/actions/post";
 import { Editor } from "@/components/editor";
 import { cn } from "@/lib/utils";
+import { LearningOutcomes } from "@/components/learning-outcomes";
 
 type ActionState = {
   errors?: {
     title?: string[];
     content?: string[];
+    learningOutcomes?: string[];
   };
   message?: string;
   success?: boolean;
@@ -26,11 +28,15 @@ type Post = {
   title: string;
   content: string;
   isPrivate: boolean;
+  learningOutcomes: string[];
 };
 
 export default function EditPostForm({ post }: { post: Post }) {
   const router = useRouter();
   const [content, setContent] = useState(post.content);
+  const [learningOutcomes, setLearningOutcomes] = useState<string[]>(
+    post.learningOutcomes.length > 0 ? post.learningOutcomes : [""]
+  );
 
   const initialState: ActionState = {
     errors: {},
@@ -50,8 +56,12 @@ export default function EditPostForm({ post }: { post: Post }) {
   }, [state.success, router, post.id]);
 
   const handleSubmit = async (formData: FormData) => {
-    // Add the editor content to the form data
+    // Add the editor content and learning outcomes to the form data
     formData.set("content", content);
+    formData.set(
+      "learningOutcomes",
+      JSON.stringify(learningOutcomes.filter(Boolean))
+    );
     await formAction(formData);
   };
 
@@ -84,6 +94,12 @@ export default function EditPostForm({ post }: { post: Post }) {
             </p>
           )}
         </div>
+
+        <LearningOutcomes
+          outcomes={learningOutcomes}
+          setOutcomes={setLearningOutcomes}
+          error={state.errors?.learningOutcomes?.join(", ")}
+        />
 
         <div className="space-y-2">
           <Label>Content</Label>

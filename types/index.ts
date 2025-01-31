@@ -9,6 +9,7 @@ export interface Post {
   author?: User;
   isFavorited?: boolean;
   favoritesCount: number;
+  learningOutcomes: string[];
 }
 
 export interface User {

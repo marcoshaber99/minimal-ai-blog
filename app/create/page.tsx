@@ -1,22 +1,24 @@
-"use client"; // This directive is required for Client Components
+"use client";
 
-import { useActionState } from "react"; // New hook for managing Server Action state
-import { useRouter } from "next/navigation"; // For programmatic navigation
+import { useActionState } from "react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { createPostAction } from "../actions/post"; // Import our Server Action
+import { createPostAction } from "../actions/post";
 import { Editor } from "@/components/editor";
 import { cn } from "@/lib/utils";
+import { LearningOutcomes } from "@/components/learning-outcomes";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-// Define the shape of our action's state (same as in the Server Action)
 type ActionState = {
   errors?: {
     title?: string[];
     content?: string[];
+    learningOutcomes?: string[];
   };
   message?: string;
   success?: boolean;
@@ -26,26 +28,19 @@ type ActionState = {
 export default function CreatePost() {
   const router = useRouter();
   const [content, setContent] = useState("");
+  const [learningOutcomes, setLearningOutcomes] = useState<string[]>([""]);
 
-  // Initial state for our form
   const initialState: ActionState = {
     errors: {},
     message: "",
     success: false,
   };
 
-  // useActionState is a new hook that manages the state of our Server Action
-  // It returns:
-  // - state: the current state of the action
-  // - formAction: a function to be used as the form's action
-  // - pending: a boolean indicating if the action is in progress
   const [state, formAction, pending] = useActionState(
     createPostAction,
     initialState
   );
 
-  // This effect runs when the state changes
-  // If the post was created successfully, it redirects to the new post
   useEffect(() => {
     if (state.success && state.postId) {
       router.push(`/post/${state.postId}`);
@@ -53,75 +48,76 @@ export default function CreatePost() {
   }, [state.success, state.postId, router]);
 
   const handleSubmit = async (formData: FormData) => {
-    // Add the editor content to the form data
     formData.set("content", content);
+    formData.set(
+      "learningOutcomes",
+      JSON.stringify(learningOutcomes.filter(Boolean))
+    );
     await formAction(formData);
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8">Create New Post</h1>
-
-      {/* The form now uses the formAction from useActionState */}
-      <form action={handleSubmit} className="space-y-6">
-        {/* Display success or error messages */}
-        {state.message && (
-          <Alert variant={state.success ? "default" : "destructive"}>
-            <AlertDescription>{state.message}</AlertDescription>
-          </Alert>
-        )}
-
-        {/* Title input field */}
-        <div className="space-y-2">
-          <Label htmlFor="title">Title</Label>
-          <Input
-            id="title"
-            name="title"
-            required
-            aria-invalid={!!state.errors?.title}
-            aria-describedby="title-error"
-          />
-          {/* Display title errors if any */}
-          {state.errors?.title && (
-            <p id="title-error" className="text-sm text-red-500">
-              {state.errors.title.join(", ")}
-            </p>
+    <Card className="max-w-4xl mx-auto  dark:bg-[#0f0f18]/40 border-none">
+      <CardHeader>
+        <CardTitle className="text-3xl">Create New Post</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form action={handleSubmit} className="space-y-6">
+          {state.message && (
+            <Alert variant={state.success ? "default" : "destructive"}>
+              <AlertDescription>{state.message}</AlertDescription>
+            </Alert>
           )}
-        </div>
 
-        {/* Content textarea field */}
-        <div className="space-y-2">
-          <Label>Content</Label>
-          <Editor
-            onChange={setContent}
-            className={cn(
-              "min-h-[500px] border-none",
-              state.errors?.content && "border-red-500"
+          <div className="space-y-2">
+            <Label htmlFor="title">Title</Label>
+            <Input
+              id="title"
+              name="title"
+              required
+              aria-invalid={!!state.errors?.title}
+              aria-describedby="title-error"
+            />
+            {state.errors?.title && (
+              <p id="title-error" className="text-sm text-red-500">
+                {state.errors.title.join(", ")}
+              </p>
             )}
+          </div>
+
+          <LearningOutcomes
+            outcomes={learningOutcomes}
+            setOutcomes={setLearningOutcomes}
+            error={state.errors?.learningOutcomes?.join(", ")}
           />
-          {/* Display content errors if any */}
-          {state.errors?.content && (
-            <p id="content-error" className="text-sm text-red-500">
-              {state.errors.content.join(", ")}
-            </p>
-          )}
-        </div>
 
-        {/* Privacy toggle */}
-        <div className="flex items-center space-x-2">
-          <Switch id="isPrivate" name="isPrivate" />
-          <Label htmlFor="isPrivate">Make this post private</Label>
-        </div>
+          <div className="space-y-2">
+            <Label>Content</Label>
+            <Editor
+              onChange={setContent}
+              className={cn(
+                "min-h-[300px] border-none",
+                state.errors?.content && "border-red-500"
+              )}
+            />
+            {state.errors?.content && (
+              <p id="content-error" className="text-sm text-red-500">
+                {state.errors.content.join(", ")}
+              </p>
+            )}
+          </div>
 
-        {/* Submit button */}
-        <Button
-          type="submit"
-          disabled={pending}
-          className="font-semibold dark:text-white dark:bg-blue-600 dark:hover:bg-blue-700"
-        >
-          {pending ? "Creating..." : "Create Post"}
-        </Button>
-      </form>
-    </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <Switch id="isPrivate" name="isPrivate" />
+              <Label htmlFor="isPrivate">Make this post private</Label>
+            </div>
+            <Button type="submit" disabled={pending} className="font-semibold">
+              {pending ? "Creating..." : "Create Post"}
+            </Button>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
   );
 }

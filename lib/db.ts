@@ -81,6 +81,7 @@ export async function getPostsByAuthor(userId: string, viewerId: string) {
     updatedAt: post.updatedAt,
     isFavorited: post.favorites.some((fav) => fav.userId === viewerId),
     favoritesCount: post.favorites.length,
+    learningOutcomes: post.learningOutcomes,
     author: post.author
       ? {
           id: post.author.id,
@@ -100,6 +101,7 @@ export async function createPost(data: {
   content: string;
   authorId: string;
   isPrivate: boolean;
+  learningOutcomes: string[];
 }) {
   return await prisma.post.create({
     data,
@@ -158,6 +160,7 @@ export async function updatePost(
     content: string;
     authorId: string;
     isPrivate: boolean;
+    learningOutcomes: string[];
   }
 ) {
   return await prisma.post.update({
@@ -228,6 +231,7 @@ export async function getPostWithFavorites(
       ? post.favorites.some((fav) => fav.userId === currentUserId)
       : false,
     favoritesCount: post.favorites.length,
+    learningOutcomes: post.learningOutcomes,
   };
 }
 export async function getUserFavorites(userId: string) {

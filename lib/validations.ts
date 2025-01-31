@@ -15,4 +15,9 @@ export const postSchema = z.object({
 
   // Whether the post is private or public
   isPrivate: z.boolean().default(false),
+
+  // Learning outcomes must be an array of strings and at least one is required
+  learningOutcomes: z
+    .array(z.string())
+    .min(1, "At least one learning outcome is required"),
 });
