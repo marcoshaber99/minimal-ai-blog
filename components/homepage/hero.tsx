@@ -10,13 +10,13 @@ interface HeroProps {
 
 export function Hero({ user }: HeroProps) {
   return (
-    <div className="relative">
+    <div className="relative w-full">
       {/* Gradient background */}
       <div className="absolute inset-0 -z-10 h-full w-full">
-        <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[300px] w-[400px] rounded-full bg-gradient-to-br from-orange-400 via-green-200 to-blue-500 opacity-20 blur-[100px]" />
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[300px] w-[400px] rounded-full bg-gradient-to-br from-orange-400 via-green-200 to-blue-500 opacity-20 blur-[100px]" />
       </div>
 
-      <div className="container relative">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Announcement banner */}
         <div className="mx-auto mb-8 sm:mb-12 flex max-w-fit items-center gap-x-2 rounded-full border border-foreground/10 bg-muted/50 px-3 py-1.5 sm:px-4 sm:py-2 shadow-sm backdrop-blur transition-all hover:border-purple-500 hover:bg-muted/50 dark:border-foreground/20 dark:hover:border-purple-500 dark:bg-muted/60">
           <p className="text-xs sm:text-sm font-semibold">
@@ -25,7 +25,7 @@ export function Hero({ user }: HeroProps) {
         </div>
 
         <div className="mx-auto max-w-3xl text-center">
-          <h1 className="font-bold text-4xl tracking-tight sm:text-6xl">
+          <h1 className="font-bold text-4xl tracking-tight sm:text-5xl md:text-6xl">
             Don&apos;t Memorize,{" "}
             <span className="relative whitespace-nowrap">
               <span className="relative bg-gradient-to-r from-blue-500 to-blue-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-blue-500 animated-underline">

@@ -11,7 +11,7 @@ export async function Navbar() {
 
   return (
     <nav className="shadow-sm">
-      <div className="container mx-auto px-4 max-w-4xl py-4 flex justify-between items-center ">
+      <div className="container mx-auto px-4 max-w-3xl py-4 flex justify-between items-center ">
         <Link
           href={user ? "/discover" : "/"}
           className="flex items-center gap-1"
@@ -34,12 +34,15 @@ export async function Navbar() {
           ) : (
             <>
               <SignInButton mode="modal">
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" size="sm" className="font-semibold">
                   Log In
                 </Button>
               </SignInButton>
               <SignUpButton mode="modal">
-                <Button variant="default" size="sm" className="font-semibold ">
+                <Button
+                  size="sm"
+                  className="font-semibold text-white bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700"
+                >
                   Sign Up
                 </Button>
               </SignUpButton>

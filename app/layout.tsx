@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Footer } from "@/components/footer";
+import type React from "react"; // Added import for React
 
 export const metadata: Metadata = {
   title: {
@@ -23,7 +24,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
-        <body className={`font-sans antialiased`}>
+        <body className="font-sans antialiased">
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -31,9 +32,11 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <Navbar />
-            <main className="min-h-screen  py-8 ">
-              <div className="container mx-auto px-4 max-w-4xl">{children}</div>
-            </main>{" "}
+            <main className="min-h-screen py-8 sm:py-12 md:py-16">
+              <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+                {children}
+              </div>
+            </main>
             <Toaster />
             <Footer />
           </ThemeProvider>
