@@ -200,3 +200,13 @@
   @apply hover:after:origin-bottom-left hover:after:scale-x-100;
   @apply after:bg-gradient-to-r after:from-blue-500 after:to-blue-600 dark:after:from-blue-400 dark:after:to-blue-500;
 }
+
+.logo-glow {
+  filter: brightness(1) drop-shadow(0 0 10px rgba(87, 241, 255, 0.756))
+    drop-shadow(0 0 15px rgba(87, 241, 255, 0.756));
+}
+
+.dark .logo-glow {
+  filter: brightness(1.4) drop-shadow(0 0 12px rgba(87, 241, 255, 0.756))
+    drop-shadow(0 0 18px rgba(87, 241, 255, 0.756));
+}

@@ -18,8 +18,8 @@ export function Hero({ user }: HeroProps) {
 
       <div className="container relative">
         {/* Announcement banner */}
-        <div className="mx-auto mb-12 flex max-w-fit items-center gap-x-2 rounded-full border border-foreground/10 bg-muted/50 px-4 py-2 shadow-sm backdrop-blur transition-all hover:border-purple-500 hover:bg-muted/50 dark:border-foreground/20 dark:hover:border-purple-500 dark:bg-muted/60">
-          <p className="text-sm font-semibold">
+        <div className="mx-auto mb-8 sm:mb-12 flex max-w-fit items-center gap-x-2 rounded-full border border-foreground/10 bg-muted/50 px-3 py-1.5 sm:px-4 sm:py-2 shadow-sm backdrop-blur transition-all hover:border-purple-500 hover:bg-muted/50 dark:border-foreground/20 dark:hover:border-purple-500 dark:bg-muted/60">
+          <p className="text-xs sm:text-sm font-semibold">
             Vivlio 1.0 is now released! 🎉
           </p>
         </div>
