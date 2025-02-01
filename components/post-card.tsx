@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Lock, Heart } from "lucide-react";
+import { Lock, StarIcon } from "lucide-react";
 import {
   Card,
   CardHeader,
@@ -28,12 +28,14 @@ export function PostCard({ post, showEditDelete = false }: PostCardProps) {
             <h3 className="text-lg font-semibold">{post.title}</h3>
           </Link>
           <div className="flex items-center gap-3">
-            {post.isPrivate && <Lock className="h-4 w-4 text-yellow-500" />}
+            {post.isPrivate && (
+              <Lock className="h-4 w-4 text-blue-500 dark:text-blue-400" />
+            )}
             <div className="flex items-center gap-1">
-              <Heart
+              <StarIcon
                 className={`h-4 w-4 ${
                   post.isFavorited
-                    ? "fill-red-500 text-red-500"
+                    ? "fill-orange-500 text-orange-500"
                     : "text-muted-foreground"
                 }`}
               />

@@ -3,7 +3,7 @@ import { getPosts } from "@/lib/db";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatDate } from "@/lib/utils/date";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, Heart } from "lucide-react";
+import { PlusCircle, StarIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { getAuthorDisplayName } from "@/lib/utils/user";
 
@@ -38,13 +38,11 @@ export default async function DiscoverPage() {
                       {post.title}
                     </h2>
                     <div className="flex items-center text-sm text-muted-foreground">
-                      <Heart className="h-4 w-4 mr-1" />
+                      <StarIcon className="h-4 w-4 mr-1" />
                       <span className="mr-3">{post.favoritesCount}</span>
                     </div>
                   </div>
-                  <p className="text-sm text-muted-foreground mb-2 line-clamp-2">
-                    {post.content.replace(/<[^>]*>/g, "")}
-                  </p>
+
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">
                       <p className="text-sm font-medium mr-2">

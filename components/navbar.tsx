@@ -39,11 +39,7 @@ export async function Navbar() {
                 </Button>
               </SignInButton>
               <SignUpButton mode="modal">
-                <Button
-                  variant="default"
-                  size="sm"
-                  className="font-semibold dark:text-white  dark:hover:bg-blue-700"
-                >
+                <Button variant="default" size="sm" className="font-semibold ">
                   Sign Up
                 </Button>
               </SignUpButton>

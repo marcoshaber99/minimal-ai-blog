@@ -2,7 +2,7 @@
 
 import { useOptimistic, useTransition } from "react";
 import { Button } from "@/components/ui/button";
-import { Heart } from "lucide-react";
+import { StarIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { toggleFavorite } from "@/app/actions/post";
 import type { Post } from "@/types";
@@ -59,19 +59,20 @@ export function FavoriteButton({ post }: FavoriteButtonProps) {
   return (
     <Button
       variant="ghost"
-      size="sm"
       className="gap-2"
       onClick={handleClick}
       disabled={isPending}
     >
-      <Heart
-        className={`h-4 w-4 ${
+      <StarIcon
+        className={`h-6 w-6 ${
           optimisticPost.isFavorited
-            ? "fill-red-500 text-red-500"
+            ? "fill-orange-500 text-orange-500"
             : "text-gray-500"
         }`}
       />
-      <span className="text-sm">{optimisticPost.favoritesCount}</span>
+      <span className="text-sm font-semibold">
+        {optimisticPost.favoritesCount}
+      </span>
     </Button>
   );
 }

@@ -64,7 +64,12 @@ async function PostContent({ params }: PostPageProps) {
         </div>
         <CardTitle className="text-3xl font-bold">{post.title}</CardTitle>
         <div className="flex items-center gap-2 mt-2 text-sm text-muted-foreground">
-          <span>By {authorName}</span>
+          <span>
+            By{" "}
+            <strong className="font-semibold text-foreground">
+              {authorName}
+            </strong>
+          </span>
           <span>•</span>
           <time dateTime={post.createdAt.toISOString()}>
             {formatDate(post.createdAt)}
@@ -84,12 +89,12 @@ async function PostContent({ params }: PostPageProps) {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="bg-muted/40 p-4 rounded-lg mb-8 border-none">
+        <div className="p-4 rounded-lg mb-8 border-none bg-muted ">
           <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
             <GraduationCap className="h-5 w-5" />
             Learning Outcomes
           </h3>
-          <ul className="list-disc list-inside space-y-1">
+          <ul className="list-disc list-inside space-y-1 ml-2">
             {post.learningOutcomes.map((outcome, index) => (
               <li key={index}>{outcome}</li>
             ))}

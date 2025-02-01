@@ -127,11 +127,7 @@ export default function EditPostForm({ post }: { post: Post }) {
           <Label htmlFor="isPrivate">Make this post private</Label>
         </div>
 
-        <Button
-          type="submit"
-          disabled={pending}
-          className="font-semibold dark:text-white dark:bg-blue-600 dark:hover:bg-blue-700"
-        >
+        <Button type="submit" disabled={pending} className="font-semibold">
           {pending ? "Updating..." : "Update Post"}
         </Button>
       </form>
