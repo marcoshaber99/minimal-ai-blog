@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { getPost } from "@/lib/db";
 import { redirect } from "next/navigation";
-import EditPostForm from "./edit-post-form";
+import EditPostForm from "../../../../components/edit-post-form";
 import { Suspense } from "react";
 import { EditSkeleton } from "@/components/skeleton-loader";
 

@@ -86,3 +86,41 @@ export function EditSkeleton() {
     </div>
   );
 }
+
+export function CreateSkeleton() {
+  return (
+    <Card className="max-w-4xl mx-auto dark:bg-[#0f0f18]/40 border-none">
+      <CardHeader>
+        <Skeleton className="h-9 w-48" />
+      </CardHeader>
+      <CardContent className="space-y-6">
+        <div className="space-y-2">
+          <Skeleton className="h-5 w-16" />
+          <Skeleton className="h-10 w-full" />
+        </div>
+
+        <div className="space-y-2">
+          <Skeleton className="h-5 w-40" />
+          <div className="space-y-2">
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-10 w-full" />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <Skeleton className="h-5 w-24" />
+          <Skeleton className="h-[300px] w-full rounded-lg" />
+        </div>
+
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <Skeleton className="h-5 w-5 rounded-full" />
+            <Skeleton className="h-5 w-32" />
+          </div>
+          <Skeleton className="h-10 w-28" />
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
