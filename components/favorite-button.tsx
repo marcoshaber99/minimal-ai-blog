@@ -66,7 +66,7 @@ export function FavoriteButton({ post }: FavoriteButtonProps) {
       <StarIcon
         className={`h-6 w-6 ${
           optimisticPost.isFavorited
-            ? "fill-orange-500 text-orange-500"
+            ? "dark:fill-yellow-500 dark:text-yellow-500 fill-orange-600 text-orange-600"
             : "text-gray-500"
         }`}
       />

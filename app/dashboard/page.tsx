@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { getPostsByAuthor, getUserFavorites } from "@/lib/db";
 import { PostsTabs } from "@/components/posts-tabs";
 import { Button } from "@/components/ui/button";
-import { PlusCircle } from "lucide-react";
+import { RiQuillPenLine } from "react-icons/ri";
 import Link from "next/link";
 import { Suspense } from "react";
 import { DashboardSkeleton } from "@/components/skeleton-loader";
@@ -26,8 +26,8 @@ async function DashboardContent() {
         <h1 className="text-3xl font-bold">Dashboard</h1>
         <Link href="/create">
           <Button variant="outline" className="gap-2 font-semibold">
-            <PlusCircle className="h-4 w-4" />
-            Create Post
+            <RiQuillPenLine className="h-4 w-4" />
+            Create
           </Button>
         </Link>
       </div>

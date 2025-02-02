@@ -35,7 +35,7 @@ export function PostCard({ post, showEditDelete = false }: PostCardProps) {
               <StarIcon
                 className={`h-4 w-4 ${
                   post.isFavorited
-                    ? "fill-orange-500 text-orange-500"
+                    ? "dark:fill-yellow-500 dark:text-yellow-500 fill-orange-600 text-orange-600"
                     : "text-muted-foreground"
                 }`}
               />
