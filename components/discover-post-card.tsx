@@ -43,7 +43,7 @@ export function DiscoverPostCard({ post }: PostCardProps) {
             </h2>
             <Badge
               variant="outline"
-              className="flex items-center gap-1.5 border-none bg-transparent"
+              className="flex items-center gap-1.5 border-none bg-transparent p-0"
             >
               {getDifficultyEmoji(post.difficultyLevel)}
               {difficulty}
