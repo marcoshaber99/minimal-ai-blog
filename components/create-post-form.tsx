@@ -59,11 +59,11 @@ export function CreatePostForm() {
   };
 
   return (
-    <Card className="max-w-4xl mx-auto dark:bg-[#0f0f18]/40 border-none">
-      <CardHeader>
+    <Card className="bg-inherit border-none">
+      <CardHeader className="px-0">
         <CardTitle className="text-3xl">Create New Post</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-0">
         <form action={handleSubmit} className="space-y-6">
           {state.message && (
             <Alert variant={state.success ? "default" : "destructive"}>

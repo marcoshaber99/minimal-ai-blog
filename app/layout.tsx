@@ -32,8 +32,8 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <Navbar />
-            <main className="min-h-screen py-8 sm:py-8 md:py-12">
-              <div className="container mx-auto max-w-4xl">{children}</div>
+            <main className="min-h-screen py-8">
+              <div className="container mx-auto max-w-4xl px-4">{children}</div>
             </main>
             <Toaster />
             <Footer />

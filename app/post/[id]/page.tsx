@@ -40,14 +40,14 @@ async function PostContent({ params }: PostPageProps) {
     : "Unknown";
 
   return (
-    <Card className="max-w-4xl mx-auto bg-inherit border-none">
+    <Card className="bg-inherit border-none">
       <CardHeader className="space-y-6">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center -mx-4">
           <Link href="/discover">
             <Button
               variant="ghost"
               size="sm"
-              className="text-muted-foreground hover:text-foreground -ml-2"
+              className="text-muted-foreground hover:text-foreground gap-2"
             >
               <ArrowLeft className="h-4 w-4" />
               Discover
@@ -55,8 +55,8 @@ async function PostContent({ params }: PostPageProps) {
           </Link>
           {isAuthor && (
             <Link href={`/edit/${post.id}`}>
-              <Button variant="outline" size="sm">
-                <Pencil className="h-2 w-2 mr-1" />
+              <Button variant="outline" size="sm" className="gap-1">
+                <Pencil className="h-3.5 w-3.5" />
                 Edit
               </Button>
             </Link>
@@ -72,7 +72,7 @@ async function PostContent({ params }: PostPageProps) {
           </div>
 
           <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
-            <div className="flex items-center ml-1">
+            <div className="flex items-center">
               <span className="font-medium text-foreground">{authorName}</span>
             </div>
             <div className="h-1 w-1 rounded-full bg-muted-foreground/30" />
@@ -95,7 +95,7 @@ async function PostContent({ params }: PostPageProps) {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="p-4 rounded-lg mb-8 border-none bg-muted ">
+        <div className="p-4 rounded-lg mb-8 bg-muted">
           <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
             <GraduationCap className="h-5 w-5" />
             Learning Outcomes

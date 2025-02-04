@@ -16,7 +16,7 @@ export function Navbar() {
 
   return (
     <nav className="shadow-sm">
-      <div className="container mx-auto max-w-4xl py-4 flex justify-between items-center">
+      <div className="container mx-auto max-w-4xl px-4 py-4 flex justify-between items-center">
         <Link
           href={user ? "/discover" : "/"}
           className="flex items-center gap-1 sm:gap-2"

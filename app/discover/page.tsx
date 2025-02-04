@@ -9,8 +9,8 @@ export default async function DiscoverPage() {
   const posts = (await getPosts()) as Post[];
 
   return (
-    <div className="container mx-auto py-6">
-      <div className="flex flex-row justify-between items-center mb-12 space-y-0">
+    <>
+      <div className="flex justify-between items-center mb-12">
         <h1 className="text-3xl sm:text-4xl font-bold text-primary">
           Discover
         </h1>
@@ -33,6 +33,6 @@ export default async function DiscoverPage() {
           ))}
         </div>
       )}
-    </div>
+    </>
   );
 }
