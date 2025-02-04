@@ -1,3 +1,5 @@
+import { DifficultyLevel } from "@/lib/validations";
+
 export interface Post {
   id: string;
   title: string;
@@ -10,6 +12,7 @@ export interface Post {
   isFavorited?: boolean;
   favoritesCount: number;
   learningOutcomes: string[];
+  difficultyLevel: DifficultyLevel;
 }
 
 export interface User {

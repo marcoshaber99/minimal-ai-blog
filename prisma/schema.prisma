@@ -7,17 +7,24 @@ generator client {
   provider = "prisma-client-js"
 }
 
+enum DifficultyLevel {
+  beginner
+  intermediate
+  advanced
+}
+
 model Post {
-  id               String     @id @default(cuid())
+  id               String          @id @default(cuid())
   title            String
   content          String
-  isPrivate        Boolean    @default(false)
-  createdAt        DateTime   @default(now())
-  updatedAt        DateTime   @updatedAt
-  author           User?      @relation(fields: [authorId], references: [id])
+  isPrivate        Boolean         @default(false)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  author           User?           @relation(fields: [authorId], references: [id])
   authorId         String?
   favorites        Favorite[]
   learningOutcomes String[]
+  difficultyLevel  DifficultyLevel @default(beginner)
 }
 
 model User {

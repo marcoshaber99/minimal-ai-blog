@@ -12,12 +12,15 @@ import { updatePostAction } from "@/app/actions/post";
 import { Editor } from "@/components/editor";
 import { cn } from "@/lib/utils";
 import { LearningOutcomes } from "@/components/learning-outcomes";
+import { DifficultySelect } from "@/components/difficulty-select";
+import type { DifficultyLevel } from "@/lib/validations";
 
 type ActionState = {
   errors?: {
     title?: string[];
     content?: string[];
     learningOutcomes?: string[];
+    difficultyLevel?: string[];
   };
   message?: string;
   success?: boolean;
@@ -29,6 +32,7 @@ type Post = {
   content: string;
   isPrivate: boolean;
   learningOutcomes: string[];
+  difficultyLevel: DifficultyLevel;
 };
 
 export default function EditPostForm({ post }: { post: Post }) {
@@ -94,6 +98,11 @@ export default function EditPostForm({ post }: { post: Post }) {
             </p>
           )}
         </div>
+
+        <DifficultySelect
+          defaultValue={post.difficultyLevel}
+          error={state.errors?.difficultyLevel?.join(", ")}
+        />
 
         <LearningOutcomes
           outcomes={learningOutcomes}

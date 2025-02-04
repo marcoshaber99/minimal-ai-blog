@@ -1,6 +1,7 @@
 import { prisma } from "./prisma";
 import { unstable_cache } from "next/cache";
 import type { Post, User } from "@/types";
+import { DifficultyLevel } from "@prisma/client";
 
 // Fetch all public posts, sorted by newest first
 export const getPosts = unstable_cache(
@@ -82,6 +83,7 @@ export async function getPostsByAuthor(userId: string, viewerId: string) {
     isFavorited: post.favorites.some((fav) => fav.userId === viewerId),
     favoritesCount: post.favorites.length,
     learningOutcomes: post.learningOutcomes,
+    difficultyLevel: post.difficultyLevel,
     author: post.author
       ? {
           id: post.author.id,
@@ -102,6 +104,7 @@ export async function createPost(data: {
   authorId: string;
   isPrivate: boolean;
   learningOutcomes: string[];
+  difficultyLevel: DifficultyLevel;
 }) {
   return await prisma.post.create({
     data,
@@ -161,6 +164,7 @@ export async function updatePost(
     authorId: string;
     isPrivate: boolean;
     learningOutcomes: string[];
+    difficultyLevel: DifficultyLevel;
   }
 ) {
   return await prisma.post.update({
@@ -232,6 +236,7 @@ export async function getPostWithFavorites(
       : false,
     favoritesCount: post.favorites.length,
     learningOutcomes: post.learningOutcomes,
+    difficultyLevel: post.difficultyLevel,
   };
 }
 export async function getUserFavorites(userId: string) {

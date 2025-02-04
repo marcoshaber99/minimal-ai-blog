@@ -12,6 +12,7 @@ import { createPostAction } from "@/app/actions/post";
 import { Editor } from "@/components/editor";
 import { cn } from "@/lib/utils";
 import { LearningOutcomes } from "@/components/learning-outcomes";
+import { DifficultySelect } from "@/components/difficulty-select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 type ActionState = {
@@ -19,6 +20,7 @@ type ActionState = {
     title?: string[];
     content?: string[];
     learningOutcomes?: string[];
+    difficultyLevel?: string[];
   };
   message?: string;
   success?: boolean;
@@ -84,6 +86,8 @@ export function CreatePostForm() {
               </p>
             )}
           </div>
+
+          <DifficultySelect error={state.errors?.difficultyLevel?.join(", ")} />
 
           <LearningOutcomes
             outcomes={learningOutcomes}

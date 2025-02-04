@@ -24,7 +24,7 @@ export function Hero({ user }: HeroProps) {
           </p>
         </div>
 
-        <div className="mx-auto max-w-3xl text-center">
+        <div className="mx-auto max-w-4xl text-center">
           <h1 className="font-bold text-4xl tracking-tight sm:text-5xl md:text-6xl">
             Don&apos;t Memorize,{" "}
             <span className="relative whitespace-nowrap">

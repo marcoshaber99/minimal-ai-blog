@@ -9,9 +9,11 @@ export default async function DiscoverPage() {
   const posts = (await getPosts()) as Post[];
 
   return (
-    <div className="container mx-auto px-4 py-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 space-y-4 sm:space-y-0">
-        <h1 className="text-4xl font-bold text-primary">Discover</h1>
+    <div className="container mx-auto py-6">
+      <div className="flex flex-row justify-between items-center mb-12 space-y-0">
+        <h1 className="text-3xl sm:text-4xl font-bold text-primary">
+          Discover
+        </h1>
         <Link href="/create">
           <Button variant="outline" className="gap-2 font-semibold">
             <RiQuillPenLine className="h-4 w-4" />

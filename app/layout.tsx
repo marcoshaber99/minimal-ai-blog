@@ -5,7 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Footer } from "@/components/footer";
-import type React from "react"; // Added import for React
+import type React from "react";
 
 export const metadata: Metadata = {
   title: {
@@ -33,9 +33,7 @@ export default function RootLayout({
           >
             <Navbar />
             <main className="min-h-screen py-8 sm:py-8 md:py-12">
-              <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-                {children}
-              </div>
+              <div className="container mx-auto max-w-4xl">{children}</div>
             </main>
             <Toaster />
             <Footer />

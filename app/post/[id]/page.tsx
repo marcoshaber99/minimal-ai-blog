@@ -40,7 +40,7 @@ async function PostContent({ params }: PostPageProps) {
     : "Unknown";
 
   return (
-    <Card className="max-w-3xl mx-auto bg-inherit border-none">
+    <Card className="max-w-4xl mx-auto bg-inherit border-none">
       <CardHeader className="space-y-6">
         <div className="flex justify-between items-center">
           <Link href="/discover">

@@ -56,7 +56,7 @@ export function PostSkeleton() {
 
 export function EditSkeleton() {
   return (
-    <div className="max-w-3xl mx-auto space-y-8">
+    <div className="max-w-4xl mx-auto space-y-8">
       <div className="flex justify-between items-center">
         <Skeleton className="h-8 w-1/4" />
         <Skeleton className="h-10 w-24" />

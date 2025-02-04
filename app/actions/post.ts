@@ -13,6 +13,7 @@ type ActionState = {
     title?: string[];
     content?: string[];
     learningOutcomes?: string[];
+    difficultyLevel?: string[];
   };
   message?: string;
   success?: boolean;
@@ -24,6 +25,7 @@ type UpdateActionState = {
     title?: string[];
     content?: string[];
     learningOutcomes?: string[];
+    difficultyLevel?: string[];
   };
   message?: string;
   success?: boolean;
@@ -61,6 +63,7 @@ export async function createPostAction(
     content: formData.get("content"),
     isPrivate: formData.get("isPrivate") === "on", // Convert checkbox value to boolean
     learningOutcomes: JSON.parse(formData.get("learningOutcomes") as string),
+    difficultyLevel: formData.get("difficultyLevel"),
   });
 
   // Step 2: If validation fails, return errors
@@ -125,6 +128,7 @@ export async function updatePostAction(
     content: formData.get("content"),
     isPrivate: formData.get("isPrivate") === "on",
     learningOutcomes: JSON.parse(formData.get("learningOutcomes") as string),
+    difficultyLevel: formData.get("difficultyLevel"),
   });
 
   if (!validatedFields.success) {

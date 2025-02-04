@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Lock, StarIcon } from "lucide-react";
+import { Lock, StarIcon, Brain } from "lucide-react";
 import {
   Card,
   CardHeader,
@@ -7,6 +7,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { DeletePostButton } from "@/components/delete-post-button";
 import { formatDate } from "@/lib/utils/date";
 import type { Post } from "@/types";
@@ -28,6 +29,11 @@ export function PostCard({ post, showEditDelete = false }: PostCardProps) {
             <h3 className="text-lg font-semibold">{post.title}</h3>
           </Link>
           <div className="flex items-center gap-3">
+            <Badge variant="outline" className="flex items-center gap-1">
+              <Brain className="h-3 w-3" />
+              {post.difficultyLevel.charAt(0).toUpperCase() +
+                post.difficultyLevel.slice(1)}
+            </Badge>
             {post.isPrivate && (
               <Lock className="h-4 w-4 text-blue-500 dark:text-blue-400" />
             )}
