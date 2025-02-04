@@ -41,7 +41,10 @@ export function DiscoverPostCard({ post }: PostCardProps) {
             <h2 className="text-xl font-semibold text-primary hover:text-primary/80 transition-colors duration-300 line-clamp-2 max-w-[200px]">
               {post.title}
             </h2>
-            <Badge variant="outline" className="flex items-center gap-1.5">
+            <Badge
+              variant="outline"
+              className="flex items-center gap-1.5 border-none bg-transparent"
+            >
               {getDifficultyEmoji(post.difficultyLevel)}
               {difficulty}
             </Badge>
