@@ -21,7 +21,7 @@ async function DashboardContent() {
   ]);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <>
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">Dashboard</h1>
         <Link href="/create">
@@ -33,7 +33,7 @@ async function DashboardContent() {
       </div>
 
       {posts.length === 0 && favorites.length === 0 ? (
-        <div className="text-center bg-muted p-8 rounded-lg">
+        <div className="text-center bg-muted rounded-lg p-8">
           <p className="text-muted-foreground mb-4">
             You haven&apos;t created any posts yet.
           </p>
@@ -44,7 +44,7 @@ async function DashboardContent() {
       ) : (
         <PostsTabs posts={posts} favorites={favorites} />
       )}
-    </div>
+    </>
   );
 }
 

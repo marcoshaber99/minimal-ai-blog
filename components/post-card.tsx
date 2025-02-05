@@ -1,16 +1,29 @@
 import Link from "next/link";
-import { Lock, StarIcon, Brain } from "lucide-react";
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
+import { Lock, StarIcon, Flame, Lightbulb, Sprout } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { DeletePostButton } from "@/components/delete-post-button";
 import { formatDate } from "@/lib/utils/date";
 import type { Post } from "@/types";
+
+const getDifficultyEmoji = (level: string | undefined) => {
+  switch (level) {
+    case "beginner":
+      return <Sprout className="h-4 w-4 text-green-400 fill-green-400" />;
+    case "intermediate":
+      return <Lightbulb className="h-4 w-4 text-yellow-500 fill-yellow-500" />;
+    case "advanced":
+      return <Flame className="h-4 w-4 text-red-400 fill-red-400" />;
+    default:
+      return <Sprout className="h-4 w-4 text-green-400 fill-green-400" />;
+  }
+};
+
+const formatDifficulty = (level: string | undefined) => {
+  if (!level) return "Beginner";
+  return level.charAt(0).toUpperCase() + level.slice(1);
+};
 
 interface PostCardProps {
   post: Post;
@@ -18,63 +31,71 @@ interface PostCardProps {
 }
 
 export function PostCard({ post, showEditDelete = false }: PostCardProps) {
+  const difficulty = formatDifficulty(post.difficultyLevel);
+
   return (
-    <Card
-      key={post.id}
-      className="hover:shadow-md transition-shadow duration-300"
-    >
-      <CardHeader className="pb-3">
+    <Card className="hover:shadow-lg transition-shadow duration-300 rounded-lg overflow-hidden">
+      <CardContent className="p-6 space-y-4">
+        {/* Title & Difficulty */}
         <div className="flex items-center justify-between">
-          <Link href={`/post/${post.id}`} className="hover:underline">
-            <h3 className="text-lg font-semibold">{post.title}</h3>
+          <Link href={`/post/${post.id}`} className="block flex-1">
+            <h2 className="text-xl font-semibold text-primary hover:text-primary/80 transition-colors duration-300 line-clamp-2 pr-4">
+              {post.title}
+            </h2>
           </Link>
-          <div className="flex items-center gap-3">
-            <Badge variant="outline" className="flex items-center gap-1">
-              <Brain className="h-3 w-3" />
-              {post.difficultyLevel.charAt(0).toUpperCase() +
-                post.difficultyLevel.slice(1)}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <Badge
+              variant="outline"
+              className="flex items-center gap-1.5 border-none bg-transparent p-0"
+            >
+              {getDifficultyEmoji(post.difficultyLevel)}
+              {difficulty}
             </Badge>
             {post.isPrivate && (
               <Lock className="h-4 w-4 text-blue-500 dark:text-blue-400" />
             )}
-            <div className="flex items-center gap-1">
+          </div>
+        </div>
+
+        {/* Content Preview */}
+        <Link href={`/post/${post.id}`} className="block">
+          <div
+            className="text-sm text-muted-foreground line-clamp-2 hover:text-muted-foreground/80 transition-colors duration-300"
+            dangerouslySetInnerHTML={{ __html: post.content }}
+          />
+        </Link>
+
+        {/* Date & Actions */}
+        <div className="flex items-center justify-between pt-2">
+          <div className="flex items-center text-sm text-muted-foreground">
+            <time dateTime={post.createdAt.toISOString()}>
+              {formatDate(post.createdAt)}
+            </time>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center text-sm">
               <StarIcon
-                className={`h-4 w-4 ${
+                className={`h-4 w-4 mr-1 ${
                   post.isFavorited
                     ? "dark:fill-yellow-500 dark:text-yellow-500 fill-orange-600 text-orange-600"
                     : "text-muted-foreground"
                 }`}
               />
-              <span className="text-sm text-muted-foreground">
-                {post.favoritesCount}
-              </span>
+              <span className="font-medium">{post.favoritesCount}</span>
             </div>
+            {showEditDelete && (
+              <div className="flex gap-2">
+                <Link href={`/edit/${post.id}`}>
+                  <Button variant="outline" size="sm">
+                    Edit
+                  </Button>
+                </Link>
+                <DeletePostButton postId={post.id} postTitle={post.title} />
+              </div>
+            )}
           </div>
         </div>
-      </CardHeader>
-      <CardContent className="pb-3">
-        <p
-          className="text-sm text-muted-foreground line-clamp-2"
-          dangerouslySetInnerHTML={{ __html: post.content }}
-        />
       </CardContent>
-      <CardFooter className="flex justify-between items-center pt-3 text-sm text-muted-foreground">
-        <div className="flex items-center gap-2">
-          <time dateTime={post.createdAt.toISOString()}>
-            {formatDate(post.createdAt)}
-          </time>
-        </div>
-        {showEditDelete && (
-          <div className="flex gap-2">
-            <Link href={`/edit/${post.id}`}>
-              <Button variant="outline" size="sm">
-                Edit
-              </Button>
-            </Link>
-            <DeletePostButton postId={post.id} postTitle={post.title} />
-          </div>
-        )}
-      </CardFooter>
     </Card>
   );
 }

@@ -60,8 +60,12 @@ export function DeletePostButton({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive" size="sm">
-          <Trash2 className="h-4 w-4" />
+        <Button
+          size="sm"
+          variant="ghost"
+          className="border border-transparent hover:bg-transparent hover:border-red-600 hover:text-red-600"
+        >
+          <Trash2 className="h-4 w-4 text-red-600" />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>

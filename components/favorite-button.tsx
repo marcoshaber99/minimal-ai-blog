@@ -57,12 +57,7 @@ export function FavoriteButton({ post }: FavoriteButtonProps) {
   }
 
   return (
-    <Button
-      variant="ghost"
-      onClick={handleClick}
-      disabled={isPending}
-      className="p-0"
-    >
+    <Button variant="ghost" onClick={handleClick} disabled={isPending}>
       <StarIcon
         className={`h-5 w-5 ${
           optimisticPost.isFavorited

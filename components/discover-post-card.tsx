@@ -68,7 +68,7 @@ export function DiscoverPostCard({ post }: PostCardProps) {
                 <Badge
                   key={index}
                   variant="secondary"
-                  className="text-xs px-2 py-1"
+                  className="text-xs px-2 py-[3px] bg-green-100/30 dark:bg-green-400/20 text-green-600 dark:text-green-300 border border-green-400/80 dark:border-green-600"
                 >
                   {outcome}
                 </Badge>

@@ -6,11 +6,12 @@ import { ErrorMessage } from "@/components/error-message";
 import { FavoriteButton } from "@/components/favorite-button";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, GraduationCap, Lock, Pencil } from "lucide-react";
+import { ArrowLeft, GraduationCapIcon, Lock, Pencil } from "lucide-react";
 import { Suspense } from "react";
 import { PostSkeleton } from "@/components/skeleton-loader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 type PostPageProps = {
   params: Promise<{ id: string }>;
@@ -41,7 +42,8 @@ async function PostContent({ params }: PostPageProps) {
 
   return (
     <Card className="bg-inherit border-none">
-      <CardHeader className="space-y-6">
+      <CardHeader className="space-y-8">
+        {/* Navigation and Actions */}
         <div className="flex justify-between items-center -mx-4">
           <Link href="/discover">
             <Button
@@ -63,50 +65,76 @@ async function PostContent({ params }: PostPageProps) {
           )}
         </div>
 
-        <div className="space-y-4">
-          <div className="flex items-start justify-between gap-4">
+        {/* Title and Metadata Section */}
+        <div className="space-y-6">
+          {/* Title and Favorite */}
+          <div className="flex items-start justify-between gap-4 -mr-4">
             <CardTitle className="text-3xl font-bold leading-tight">
               {post.title}
             </CardTitle>
             <FavoriteButton post={post} />
           </div>
 
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
-            <div className="flex items-center">
-              <span className="font-medium text-foreground">{authorName}</span>
+          {/* Author Info and Post Details */}
+          <div className="flex flex-col gap-4 text-sm">
+            {/* Author and Date */}
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
+                <Avatar className="h-6 w-6">
+                  <AvatarImage
+                    src={
+                      post.author?.imageUrl ? post.author.imageUrl : undefined
+                    }
+                    alt={authorName || "Anonymous"}
+                  />
+                  <AvatarFallback className="text-xs font-medium bg-muted">
+                    {authorName?.charAt(0) || "?"}
+                  </AvatarFallback>
+                </Avatar>
+                <span className="font-medium">{authorName}</span>
+              </div>
+              <div className="h-1 w-1 rounded-full bg-muted-foreground" />
+              <time
+                dateTime={post.createdAt.toISOString()}
+                className="text-muted-foreground"
+              >
+                {formatDate(post.createdAt)}
+              </time>
             </div>
-            <div className="h-1 w-1 rounded-full bg-muted-foreground/30" />
-            <time
-              dateTime={post.createdAt.toISOString()}
-              className="text-muted-foreground"
-            >
-              {formatDate(post.createdAt)}
-            </time>
-            {post.isPrivate && (
-              <>
-                <div className="h-1 w-1 rounded-full bg-muted-foreground/30" />
-                <Badge variant="secondary" className="flex items-center gap-1">
-                  <Lock className="h-3 w-3" />
-                  Private
-                </Badge>
-              </>
-            )}
+
+            {/* Post Status and Learning Outcomes */}
+            <div className="flex items-center gap-3">
+              {post.isPrivate && (
+                <>
+                  <Badge
+                    variant="secondary"
+                    className="flex items-center gap-1"
+                  >
+                    <Lock className="h-3 w-3" />
+                    Private
+                  </Badge>
+                  <div className="h-1 w-1 rounded-full bg-muted-foreground/30" />
+                </>
+              )}
+              <div className="flex items-center gap-2">
+                <GraduationCapIcon className="h-5 w-5 text-green-600 dark:text-green-400" />
+                <div className="flex flex-wrap gap-1.5">
+                  {post.learningOutcomes.map((outcome, index) => (
+                    <Badge
+                      key={index}
+                      variant="secondary"
+                      className="text-xs px-2 py-[3px] bg-green-100/30 dark:bg-green-400/20 text-green-600 dark:text-green-300 border border-green-400/80 dark:border-green-600"
+                    >
+                      {outcome}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </CardHeader>
       <CardContent>
-        <div className="p-4 rounded-lg mb-8 bg-muted">
-          <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
-            <GraduationCap className="h-5 w-5" />
-            Learning Outcomes
-          </h3>
-          <ul className="list-disc list-inside space-y-1 ml-2">
-            {post.learningOutcomes.map((outcome, index) => (
-              <li key={index}>{outcome}</li>
-            ))}
-          </ul>
-        </div>
-
         <div
           className="prose max-w-none dark:prose-invert"
           dangerouslySetInnerHTML={{ __html: post.content }}

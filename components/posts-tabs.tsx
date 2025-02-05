@@ -14,31 +14,39 @@ export function PostsTabs({ posts, favorites }: PostsTabsProps) {
   const privatePosts = posts.filter((post) => post.isPrivate);
 
   return (
-    <Tabs defaultValue="posts" className="w-full">
-      <TabsList className="grid w-full grid-cols-3 mb-8">
-        <TabsTrigger value="posts">Your Posts</TabsTrigger>
-        <TabsTrigger value="private">Private</TabsTrigger>
-        <TabsTrigger value="favorites">Favorites</TabsTrigger>
+    <Tabs defaultValue="posts" className="w-full space-y-6">
+      <TabsList className="w-full grid grid-cols-3">
+        <TabsTrigger value="posts" className="font-medium">
+          Your Posts
+        </TabsTrigger>
+        <TabsTrigger value="private" className="font-medium">
+          Private
+        </TabsTrigger>
+        <TabsTrigger value="favorites" className="font-medium">
+          Favorites
+        </TabsTrigger>
       </TabsList>
 
       {["posts", "private", "favorites"].map((tab) => (
-        <TabsContent key={tab} value={tab}>
-          <div className="space-y-6">
-            {(tab === "posts"
-              ? publicPosts
-              : tab === "private"
-              ? privatePosts
-              : favorites
-            ).length === 0 ? (
-              <p className="text-muted-foreground text-center bg-muted p-8 rounded-lg">
+        <TabsContent key={tab} value={tab} className="space-y-4">
+          {(tab === "posts"
+            ? publicPosts
+            : tab === "private"
+            ? privatePosts
+            : favorites
+          ).length === 0 ? (
+            <div className="text-center bg-muted/50 rounded-lg py-8">
+              <p className="text-muted-foreground">
                 {tab === "posts"
                   ? "You haven't created any public posts yet."
                   : tab === "private"
                   ? "You haven't created any private posts yet."
                   : "You haven't favorited any posts yet."}
               </p>
-            ) : (
-              (tab === "posts"
+            </div>
+          ) : (
+            <div className="grid gap-4">
+              {(tab === "posts"
                 ? publicPosts
                 : tab === "private"
                 ? privatePosts
@@ -49,9 +57,9 @@ export function PostsTabs({ posts, favorites }: PostsTabsProps) {
                   post={post}
                   showEditDelete={tab !== "favorites"}
                 />
-              ))
-            )}
-          </div>
+              ))}
+            </div>
+          )}
         </TabsContent>
       ))}
     </Tabs>
