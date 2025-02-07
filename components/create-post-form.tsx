@@ -13,7 +13,8 @@ import { Editor } from "@/components/editor";
 import { cn } from "@/lib/utils";
 import { LearningOutcomes } from "@/components/learning-outcomes";
 import { DifficultySelect } from "@/components/difficulty-select";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
+import { DifficultyLevel } from "@/lib/validations";
 
 type ActionState = {
   errors?: {
@@ -31,6 +32,13 @@ export function CreatePostForm() {
   const router = useRouter();
   const [content, setContent] = useState("");
   const [learningOutcomes, setLearningOutcomes] = useState<string[]>([""]);
+  const [difficultyLevel, setDifficultyLevel] = useState<DifficultyLevel>(
+    DifficultyLevel.BEGINNER
+  );
+
+  const handleDifficultyChange = (value: string) => {
+    setDifficultyLevel(value as DifficultyLevel);
+  };
 
   const initialState: ActionState = {
     errors: {},
@@ -55,15 +63,13 @@ export function CreatePostForm() {
       "learningOutcomes",
       JSON.stringify(learningOutcomes.filter(Boolean))
     );
+    formData.set("difficultyLevel", difficultyLevel);
     await formAction(formData);
   };
 
   return (
     <Card className="bg-inherit border-none">
-      <CardHeader className="px-0">
-        <CardTitle className="text-3xl">Create New Post</CardTitle>
-      </CardHeader>
-      <CardContent className="px-0">
+      <CardContent className="p-0 border-none">
         <form action={handleSubmit} className="space-y-6">
           {state.message && (
             <Alert variant={state.success ? "default" : "destructive"}>
@@ -87,13 +93,28 @@ export function CreatePostForm() {
             )}
           </div>
 
-          <DifficultySelect error={state.errors?.difficultyLevel?.join(", ")} />
+          <div className="space-y-2">
+            <Label>Difficulty</Label>
+            <DifficultySelect
+              name="difficultyLevel"
+              defaultValue={difficultyLevel}
+              onChange={handleDifficultyChange}
+            />
+            {state.errors?.difficultyLevel && (
+              <p className="text-sm text-red-500">
+                {state.errors.difficultyLevel.join(", ")}
+              </p>
+            )}
+          </div>
 
-          <LearningOutcomes
-            outcomes={learningOutcomes}
-            setOutcomes={setLearningOutcomes}
-            error={state.errors?.learningOutcomes?.join(", ")}
-          />
+          <div className="space-y-2">
+            <Label>Learning Outcomes</Label>
+            <LearningOutcomes
+              outcomes={learningOutcomes}
+              setOutcomes={setLearningOutcomes}
+              error={state.errors?.learningOutcomes?.join(", ")}
+            />
+          </div>
 
           <div className="space-y-2">
             <Label>Content</Label>

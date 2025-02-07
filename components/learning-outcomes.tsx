@@ -1,7 +1,6 @@
 import type React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Plus, Minus } from "lucide-react";
 
 interface LearningOutcomesProps {
@@ -31,7 +30,6 @@ export function LearningOutcomes({
 
   return (
     <div className="space-y-4">
-      <Label className="text-lg font-semibold">Learning Outcomes</Label>
       {outcomes.map((outcome, index) => (
         <div key={index} className="flex items-center space-x-2">
           <Input

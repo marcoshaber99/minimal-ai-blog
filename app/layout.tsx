@@ -1,10 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Navbar } from "@/components/navbar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Footer } from "@/components/footer";
 import type React from "react";
 
 export const metadata: Metadata = {
@@ -31,12 +29,8 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Navbar />
-            <main className="min-h-screen py-8">
-              <div className="container mx-auto max-w-4xl px-4">{children}</div>
-            </main>
+            {children}
             <Toaster />
-            <Footer />
           </ThemeProvider>
         </body>
       </html>

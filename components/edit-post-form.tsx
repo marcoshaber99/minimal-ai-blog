@@ -41,6 +41,13 @@ export default function EditPostForm({ post }: { post: Post }) {
   const [learningOutcomes, setLearningOutcomes] = useState<string[]>(
     post.learningOutcomes.length > 0 ? post.learningOutcomes : [""]
   );
+  const [difficultyLevel, setDifficultyLevel] = useState<DifficultyLevel>(
+    post.difficultyLevel
+  );
+
+  const handleDifficultyChange = (value: string) => {
+    setDifficultyLevel(value as DifficultyLevel);
+  };
 
   const initialState: ActionState = {
     errors: {},
@@ -66,6 +73,7 @@ export default function EditPostForm({ post }: { post: Post }) {
       "learningOutcomes",
       JSON.stringify(learningOutcomes.filter(Boolean))
     );
+    formData.set("difficultyLevel", difficultyLevel);
     await formAction(formData);
   };
 
@@ -99,16 +107,28 @@ export default function EditPostForm({ post }: { post: Post }) {
           )}
         </div>
 
-        <DifficultySelect
-          defaultValue={post.difficultyLevel}
-          error={state.errors?.difficultyLevel?.join(", ")}
-        />
+        <div className="space-y-2">
+          <Label>Difficulty</Label>
+          <DifficultySelect
+            name="difficultyLevel"
+            defaultValue={difficultyLevel}
+            onChange={handleDifficultyChange}
+          />
+          {state.errors?.difficultyLevel && (
+            <p className="text-sm text-red-500">
+              {state.errors.difficultyLevel.join(", ")}
+            </p>
+          )}
+        </div>
 
-        <LearningOutcomes
-          outcomes={learningOutcomes}
-          setOutcomes={setLearningOutcomes}
-          error={state.errors?.learningOutcomes?.join(", ")}
-        />
+        <div className="space-y-2">
+          <Label>Learning Outcomes</Label>
+          <LearningOutcomes
+            outcomes={learningOutcomes}
+            setOutcomes={setLearningOutcomes}
+            error={state.errors?.learningOutcomes?.join(", ")}
+          />
+        </div>
 
         <div className="space-y-2">
           <Label>Content</Label>

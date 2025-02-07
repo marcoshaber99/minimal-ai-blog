@@ -4,9 +4,8 @@ import { getAuthorDisplayName } from "@/lib/utils/user";
 import { formatDate } from "@/lib/utils/date";
 import { ErrorMessage } from "@/components/error-message";
 import { FavoriteButton } from "@/components/favorite-button";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, GraduationCapIcon, Lock, Pencil } from "lucide-react";
+
+import { GraduationCapIcon, Lock } from "lucide-react";
 import { Suspense } from "react";
 import { PostSkeleton } from "@/components/skeleton-loader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -43,28 +42,6 @@ async function PostContent({ params }: PostPageProps) {
   return (
     <Card className="bg-inherit border-none">
       <CardHeader className="space-y-8">
-        {/* Navigation and Actions */}
-        <div className="flex justify-between items-center -mx-4">
-          <Link href="/discover">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-muted-foreground hover:text-foreground gap-2"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Discover
-            </Button>
-          </Link>
-          {isAuthor && (
-            <Link href={`/edit/${post.id}`}>
-              <Button variant="outline" size="sm" className="gap-1">
-                <Pencil className="h-3.5 w-3.5" />
-                Edit
-              </Button>
-            </Link>
-          )}
-        </div>
-
         {/* Title and Metadata Section */}
         <div className="space-y-6">
           {/* Title and Favorite */}
