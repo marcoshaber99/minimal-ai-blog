@@ -2,6 +2,7 @@ import { getPostWithFavorites } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { getAuthorDisplayName } from "@/lib/utils/user";
 import { formatDate } from "@/lib/utils/date";
+import { getDifficultyEmoji, formatDifficulty } from "@/lib/utils/difficulty";
 import { ErrorMessage } from "@/components/error-message";
 import { FavoriteButton } from "@/components/favorite-button";
 
@@ -93,6 +94,14 @@ async function PostContent({ params }: PostPageProps) {
                   <div className="h-1 w-1 rounded-full bg-muted-foreground/30" />
                 </>
               )}
+              <Badge
+                variant="outline"
+                className="flex items-center gap-1.5 border-none bg-transparent p-0"
+              >
+                {getDifficultyEmoji(post.difficultyLevel)}
+                {formatDifficulty(post.difficultyLevel)}
+              </Badge>
+              <div className="h-1 w-1 rounded-full bg-muted-foreground/30" />
               <div className="flex items-center gap-2">
                 <GraduationCapIcon className="h-5 w-5 text-green-600 dark:text-green-400" />
                 <div className="flex flex-wrap gap-1.5">

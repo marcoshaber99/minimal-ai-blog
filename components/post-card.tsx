@@ -1,29 +1,12 @@
 import Link from "next/link";
-import { Lock, StarIcon, Flame, Lightbulb, Sprout } from "lucide-react";
+import { Lock, StarIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { DeletePostButton } from "@/components/delete-post-button";
 import { formatDate } from "@/lib/utils/date";
+import { getDifficultyEmoji, formatDifficulty } from "@/lib/utils/difficulty";
 import type { Post } from "@/types";
-
-const getDifficultyEmoji = (level: string | undefined) => {
-  switch (level) {
-    case "beginner":
-      return <Sprout className="h-4 w-4 text-green-400 fill-green-400" />;
-    case "intermediate":
-      return <Lightbulb className="h-4 w-4 text-yellow-500 fill-yellow-500" />;
-    case "advanced":
-      return <Flame className="h-4 w-4 text-red-400 fill-red-400" />;
-    default:
-      return <Sprout className="h-4 w-4 text-green-400 fill-green-400" />;
-  }
-};
-
-const formatDifficulty = (level: string | undefined) => {
-  if (!level) return "Beginner";
-  return level.charAt(0).toUpperCase() + level.slice(1);
-};
 
 interface PostCardProps {
   post: Post;
