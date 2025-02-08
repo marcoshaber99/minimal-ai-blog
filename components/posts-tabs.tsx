@@ -38,14 +38,14 @@ export function PostsTabs({ posts, favorites }: PostsTabsProps) {
             <div className="text-center bg-muted/50 rounded-lg py-8">
               <p className="text-muted-foreground">
                 {tab === "posts"
-                  ? "You haven't created any public posts yet."
+                  ? "Share your knowledge with the world! Create your first public post."
                   : tab === "private"
-                  ? "You haven't created any private posts yet."
-                  : "You haven't favorited any posts yet."}
+                  ? "Keep your drafts and personal posts private. Create your first private post!"
+                  : "Discover and save inspiring posts to revisit later. Start exploring!"}
               </p>
             </div>
           ) : (
-            <div className="grid gap-4">
+            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 ">
               {(tab === "posts"
                 ? publicPosts
                 : tab === "private"

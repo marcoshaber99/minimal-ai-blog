@@ -30,7 +30,9 @@ export default async function AuthenticatedLayout({
           <Separator orientation="vertical" className="h-4" />
           <PageBreadcrumbs />
         </header>
-        <main className="container py-8">{children}</main>
+        <main className="container py-8 px-4 md:px-6 max-w-screen-2xl mx-auto">
+          {children}
+        </main>
       </SidebarInset>
     </SidebarProvider>
   );
