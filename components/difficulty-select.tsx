@@ -9,6 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DifficultyLevel } from "@/lib/validations";
+import { getDifficultyEmoji } from "@/lib/utils/difficulty";
 
 interface DifficultySelectProps {
   defaultValue?: DifficultyLevel | "all";
@@ -52,12 +53,29 @@ export function DifficultySelect({
           <SelectValue placeholder="Select difficulty level" />
         </SelectTrigger>
         <SelectContent>
-          {!name && <SelectItem value={ALL_LEVELS}>All levels</SelectItem>}
-          <SelectItem value={DifficultyLevel.BEGINNER}>Beginner</SelectItem>
-          <SelectItem value={DifficultyLevel.INTERMEDIATE}>
-            Intermediate
+          {!name && (
+            <SelectItem value={ALL_LEVELS}>
+              <span className="flex items-center gap-2">All levels</span>
+            </SelectItem>
+          )}
+          <SelectItem value={DifficultyLevel.BEGINNER}>
+            <span className="flex items-center gap-2">
+              {getDifficultyEmoji("beginner")}
+              Beginner
+            </span>
           </SelectItem>
-          <SelectItem value={DifficultyLevel.ADVANCED}>Advanced</SelectItem>
+          <SelectItem value={DifficultyLevel.INTERMEDIATE}>
+            <span className="flex items-center gap-2">
+              {getDifficultyEmoji("intermediate")}
+              Intermediate
+            </span>
+          </SelectItem>
+          <SelectItem value={DifficultyLevel.ADVANCED}>
+            <span className="flex items-center gap-2">
+              {getDifficultyEmoji("advanced")}
+              Advanced
+            </span>
+          </SelectItem>
         </SelectContent>
       </Select>
     </div>

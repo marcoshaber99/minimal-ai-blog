@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { StarIcon, User } from "lucide-react";
 import { formatDate } from "@/lib/utils/date";
 import { getAuthorDisplayName } from "@/lib/utils/user";
-import { getDifficultyEmoji, formatDifficulty } from "@/lib/utils/difficulty";
+import { getDifficultyEmoji } from "@/lib/utils/difficulty";
 import type { Post } from "@/types";
 
 interface PostCardProps {
@@ -12,7 +12,6 @@ interface PostCardProps {
 }
 
 export function DiscoverPostCard({ post }: PostCardProps) {
-  const difficulty = formatDifficulty(post.difficultyLevel);
   const outcomes = post.learningOutcomes || [];
 
   return (
@@ -29,7 +28,6 @@ export function DiscoverPostCard({ post }: PostCardProps) {
               className="flex items-center gap-1.5 border-none bg-transparent p-0"
             >
               {getDifficultyEmoji(post.difficultyLevel)}
-              {difficulty}
             </Badge>
           </div>
 

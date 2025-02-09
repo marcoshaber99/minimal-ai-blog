@@ -9,6 +9,7 @@ import {
   LayoutDashboard,
   PenLineIcon,
   House,
+  Star,
 } from "lucide-react";
 
 import {
@@ -38,6 +39,7 @@ const mainNavItems = [
   { title: "Discover", icon: House, href: "/discover" },
   { title: "Create", icon: PenLineIcon, href: "/create" },
   { title: "Dashboard", icon: LayoutDashboard, href: "/dashboard" },
+  { title: "Favorites", icon: Star, href: "/favorites" },
 ];
 
 export function AppSidebar() {

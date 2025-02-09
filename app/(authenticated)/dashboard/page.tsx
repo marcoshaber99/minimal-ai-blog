@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { getPostsByAuthor, getUserFavorites } from "@/lib/db";
+import { getPostsByAuthor } from "@/lib/db";
 import { PostsTabs } from "@/components/posts-tabs";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -14,14 +14,11 @@ async function DashboardContent() {
     redirect("/sign-in");
   }
 
-  const [posts, favorites] = await Promise.all([
-    getPostsByAuthor(userId, userId),
-    getUserFavorites(userId),
-  ]);
+  const posts = await getPostsByAuthor(userId, userId);
 
   return (
     <>
-      {posts.length === 0 && favorites.length === 0 ? (
+      {posts.length === 0 ? (
         <div className="text-center bg-muted rounded-lg p-8">
           <p className="text-muted-foreground mb-4">
             You haven&apos;t created any posts yet.
@@ -31,7 +28,7 @@ async function DashboardContent() {
           </Link>
         </div>
       ) : (
-        <PostsTabs posts={posts} favorites={favorites} />
+        <PostsTabs posts={posts} />
       )}
     </>
   );

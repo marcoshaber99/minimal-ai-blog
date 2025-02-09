@@ -16,6 +16,7 @@ const breadcrumbTitles: { [key: string]: string } = {
   dashboard: "Dashboard",
   edit: "Edit Post",
   post: "View Post",
+  favorites: "Favorites",
 };
 
 export function PageBreadcrumbs() {
