@@ -26,17 +26,19 @@ export function Hero({ user }: HeroProps) {
 
         <div className="mx-auto max-w-4xl text-center">
           <h1 className="font-bold text-4xl tracking-tight sm:text-5xl md:text-6xl">
-            Write{" "}
-            <span className="relative">
-              <span className="relative z-10">technical blogs</span>
+            Think Critically,{" "}
+            <span className="relative inline-block">
+              <span className="relative z-10 whitespace-nowrap">
+                Understand
+              </span>
               <span className="absolute inset-0 bg-green-200/60 dark:bg-emerald-500/30 -rotate-[0.2deg] rounded-lg" />
             </span>{" "}
-            that developers love
+            Technically
           </h1>
 
-          <p className="mt-6 text-lg leading-8 text-muted-foreground">
-            A developer-focused, educational blog platform designed to help you
-            grasp complex concepts and share knowledge effectively.
+          <p className="mt-6 text-lg leading-8 text-muted-foreground max-w-2xl mx-auto">
+            Dive into clear, concise technical blogs written by developers, for
+            developers.
           </p>
 
           <div className="mt-10 flex items-center justify-center gap-x-6">
