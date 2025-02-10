@@ -147,18 +147,24 @@ export default function EditPostForm({ post }: { post: Post }) {
           )}
         </div>
 
-        <div className="flex items-center space-x-2">
-          <Switch
-            id="isPrivate"
-            name="isPrivate"
-            defaultChecked={post.isPrivate}
-          />
-          <Label htmlFor="isPrivate">Make this post private</Label>
-        </div>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="isPrivate"
+              name="isPrivate"
+              defaultChecked={post.isPrivate}
+            />
+            <Label htmlFor="isPrivate">Make this post private</Label>
+          </div>
 
-        <Button type="submit" disabled={pending} className="font-semibold">
-          {pending ? "Updating..." : "Update Post"}
-        </Button>
+          <Button
+            type="submit"
+            disabled={pending}
+            className="font-semibold text-white bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-600 dark:hover:bg-emerald-700"
+          >
+            {pending ? "Updating..." : "Update Post"}
+          </Button>
+        </div>
       </form>
     </div>
   );

@@ -62,7 +62,7 @@ export function Navbar() {
                   <SignUpButton mode="modal">
                     <Button
                       size="sm"
-                      className="font-semibold text-white bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700"
+                      className="font-semibold text-white bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-600 dark:hover:bg-emerald-700"
                     >
                       Sign Up
                     </Button>
@@ -90,7 +90,7 @@ export function Navbar() {
             <SignUpButton mode="modal">
               <Button
                 size="sm"
-                className="w-full font-semibold text-white bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700"
+                className="w-full font-semibold text-white bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-600 dark:hover:bg-emerald-700"
               >
                 Sign Up
               </Button>

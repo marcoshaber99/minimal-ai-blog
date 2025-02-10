@@ -69,7 +69,11 @@ export function PostCard({ post, showEditDelete = false }: PostCardProps) {
             {showEditDelete && (
               <div className="flex gap-2">
                 <Link href={`/edit/${post.id}`}>
-                  <Button variant="outline" size="sm">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="border  hover:border-emerald-600 "
+                  >
                     Edit
                   </Button>
                 </Link>

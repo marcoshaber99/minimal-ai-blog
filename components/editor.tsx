@@ -14,12 +14,14 @@ import { OrderedListToolbar } from "@/components/toolbars/ordered-list";
 import { BlockquoteToolbar } from "@/components/toolbars/blockquote";
 import { CodeBlockToolbar } from "@/components/toolbars/code-block";
 import { HeadingToolbar } from "@/components/toolbars/heading";
+import { ColorAndHighlightToolbar } from "@/components/toolbars/color-and-highlight";
 import Placeholder from "@tiptap/extension-placeholder";
 import Typography from "@tiptap/extension-typography";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import { common, createLowlight } from "lowlight";
 import Color from "@tiptap/extension-color";
 import TextStyle from "@tiptap/extension-text-style";
+import Highlight from "@tiptap/extension-highlight";
 
 const lowlight = createLowlight(common);
 
@@ -86,7 +88,6 @@ export function Editor({
         Placeholder.configure({
           placeholder: placeholder,
         }),
-
         Typography,
         CodeBlockLowlight.configure({
           lowlight,
@@ -95,8 +96,16 @@ export function Editor({
               "bg-muted text-muted-foreground p-4 rounded-lg font-mono text-sm my-4",
           },
         }),
-        Color,
         TextStyle,
+        Color.configure({
+          types: ["textStyle"],
+        }),
+        Highlight.configure({
+          multicolor: true,
+          HTMLAttributes: {
+            style: "background-color",
+          },
+        }),
       ],
       content: content || "",
       onUpdate: ({ editor }) => {
@@ -124,6 +133,7 @@ export function Editor({
                 <BoldToolbar />
                 <ItalicToolbar />
                 <StrikeThroughToolbar />
+                <ColorAndHighlightToolbar />
               </div>
               <Separator orientation="vertical" className="mx-1 h-6" />
               <div className="flex items-center gap-1">

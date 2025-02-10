@@ -137,7 +137,11 @@ export function CreatePostForm() {
               <Switch id="isPrivate" name="isPrivate" />
               <Label htmlFor="isPrivate">Make this post private</Label>
             </div>
-            <Button type="submit" disabled={pending} className="font-semibold">
+            <Button
+              type="submit"
+              disabled={pending}
+              className="font-semibold text-white bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-600 dark:hover:bg-emerald-700"
+            >
               {pending ? "Creating..." : "Create Post"}
             </Button>
           </div>

@@ -16,10 +16,10 @@ export function PostsTabs({ posts }: PostsTabsProps) {
     <Tabs defaultValue="posts" className="w-full space-y-6">
       <TabsList className="w-full grid grid-cols-2">
         <TabsTrigger value="posts" className="font-medium">
-          Your Posts
+          Your Public Posts
         </TabsTrigger>
         <TabsTrigger value="private" className="font-medium">
-          Private
+          Your Private Posts
         </TabsTrigger>
       </TabsList>
 
